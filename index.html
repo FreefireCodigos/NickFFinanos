@@ -2,97 +2,282 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>NickFinder - Generador de Nombres</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NickFinder Pro - Generador Insano</title>
     <style>
-        :root { --bg-body: #f4f7f9; --sidebar-bg: #ffffff; --primary: #3b5998; --active: #334e68; --accent: #ff4757; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg-body); margin: 0; display: flex; color: #333; }
-        /* SIDEBAR (ESTE ES EL MENÚ COMPLETO PARA TODAS LAS PÁGINAS) */
-        nav.sidebar { min-width: 260px; background: var(--sidebar-bg); height: 100vh; position: sticky; top: 0; border-right: 1px solid #ddd; overflow-y: auto; }
-        .sidebar-item { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: #555; text-decoration: none; transition: 0.3s; border-left: 4px solid transparent; }
-        .sidebar-item:hover { background: #f0f4f8; }
-        .sidebar-item.active { background: var(--active); color: white; border-left: 4px solid var(--primary); }
-        .sidebar-category { background: #edf2f7; padding: 8px 20px; font-size: 0.8rem; font-weight: bold; color: #777; text-transform: uppercase; margin-top: 10px;}
-        /* MAIN Y TARJETAS */
-        main { flex-grow: 1; padding: 30px; overflow-x: hidden; }
-        header { text-align: center; margin-bottom: 30px; }
-        .search-area { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; gap: 10px; max-width: 700px; margin: 0 auto; }
-        .search-area input { flex-grow: 1; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem; }
-        .search-area button { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .section-title { font-size: 1.4rem; margin: 30px 0 15px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
-        .nick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .nick-card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
-        .nick-card:hover { transform: scale(1.02); border: 1px solid var(--primary); }
-        .copy-icon { font-size: 0.7rem; color: var(--primary); font-weight: bold; background: #eef2ff; padding: 4px 8px; border-radius: 4px; }
-        #toast { position: fixed; top: 20px; right: 20px; background: #2ecc71; color: white; padding: 15px 25px; border-radius: 5px; display: none; z-index: 1000; }
+        :root {
+            --bg-body: #f4f7f9;
+            --sidebar-bg: #ffffff;
+            --sidebar-hover: #f0f4f8;
+            --sidebar-active: #334e68;
+            --primary: #3b5998;
+            --text-dark: #333;
+            --accent: #ff4757;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+        }
+
+        /* --- BARRA LATERAL (SIDEBAR) --- */
+        nav.sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            height: 100vh;
+            position: fixed;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .sidebar-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: #555;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-item:hover {
+            background: var(--sidebar-hover);
+        }
+
+        .sidebar-item.active {
+            background: var(--sidebar-active);
+            color: white;
+            border-left: 4px solid var(--primary);
+        }
+
+        .sidebar-category {
+            background: #edf2f7;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #777;
+            text-transform: uppercase;
+        }
+
+        /* --- CONTENIDO PRINCIPAL --- */
+        main {
+            margin-left: 260px;
+            flex-grow: 1;
+            padding: 30px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .search-area {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 10px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .search-area input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .search-area button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* --- GRILLA DE NOMBRES --- */
+        .section-title {
+            font-size: 1.4rem;
+            margin: 30px 0 15px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        .nick-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .nick-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nick-card:hover {
+            transform: scale(1.02);
+            border: 1px solid var(--primary);
+        }
+
+        .copy-icon {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: bold;
+            background: #eef2ff;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* NOTIFICACIÓN */
+        #toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        @media (max-width: 768px) {
+            nav.sidebar { width: 70px; }
+            .sidebar-item span, .sidebar-category { display: none; }
+            main { margin-left: 70px; }
+        }
     </style>
 </head>
 <body>
 
     <nav class="sidebar">
-        <div style="padding: 20px; font-weight: bold; color: var(--primary); font-size: 1.2rem;">NickFinder Pro</div>
-        <a href="simbolos.html" class="sidebar-item">💎 Fuente y símbolos</a>
-        <a href="combinar.html" class="sidebar-item">🔗 Combinar dos nombres</a>
-        <a href="apodo-simbolos.html" class="sidebar-item">⭐ Apodo a símbolos</a>
-        <a href="generador-texto.html" class="sidebar-item">📝 Generador de texto</a>
+        <div style="padding: 20px; font-weight: bold; color: var(--primary); font-size: 1.2rem;">NickFinder 2.0</div>
+        
+        <div class="sidebar-item">💎 Fuente y símbolos</div>
+        <div class="sidebar-item">🔗 Combinar dos nombres</div>
+        <div class="sidebar-item">⭐ Apodo a símbolos</div>
+        <div class="sidebar-item">📝 Generador de texto</div>
         
         <div class="sidebar-category">Categorías</div>
-        <a href="por-simbolo.html" class="sidebar-item">🔍 Por símbolo</a>
-        <a href="index.html" class="sidebar-item active">♂️ Nombres masculinos</a>
-        <a href="nombres-femeninos.html" class="sidebar-item">♀️ Nombres femeninos</a>
-        <a href="contrasenas.html" class="sidebar-item">🔒 Generador contraseñas</a>
-        <a href="dominios.html" class="sidebar-item">🌐 Nombres de dominio</a>
-
+        <div class="sidebar-item">🔍 Por símbolo</div>
+        <div class="sidebar-item active">♂️ Nombres masculinos</div>
+        <div class="sidebar-item">♀️ Nombres femeninos</div>
+        <div class="sidebar-item">🔒 Generador de contraseñas</div>
+        <div class="sidebar-item">🌐 Nombres de dominio</div>
+        
         <div class="sidebar-category">Populares</div>
-        <a href="free-fire.html" class="sidebar-item">🎮 Free Fire</a>
-        <a href="pubg-cod.html" class="sidebar-item">🔫 PUBG / COD</a>
-        <a href="minecraft.html" class="sidebar-item">👾 Minecraft</a>
+        <div class="sidebar-item">🎮 Free Fire</div>
+        <div class="sidebar-item">🔫 PUBG / COD</div>
+        <div class="sidebar-item">👾 Minecraft</div>
     </nav>
 
     <main>
         <header>
-            <h1>Generador <span style="color:var(--primary)">Masculino</span></h1>
+            <h1>Generador de Apodos <span style="color:var(--primary)">Masculinos</span></h1>
+            <p>Busca, combina y copia los mejores nombres ya decorados para tus juegos.</p>
+            
             <div class="search-area">
-                <input type="text" id="mainInput" placeholder="Escribe tu nombre para decorarlo...">
+                <input type="text" id="mainInput" placeholder="Escribe un nombre (ej. Carlos)...">
                 <button onclick="generateCustom()">DECORAR</button>
             </div>
         </header>
 
         <div id="customSection" style="display:none;">
-            <h2 class="section-title">✨ Tu Nombre Decorado</h2>
+            <h2 class="section-title">✨ Tus Nombres Decorados</h2>
             <div class="nick-grid" id="customResults"></div>
         </div>
 
-        <h2 class="section-title">🔥 Top Nombres Insanos</h2>
-        <div class="nick-grid" id="masculineGrid"></div>
+        <h2 class="section-title">🔥 Tendencias de Hoy</h2>
+        <div class="nick-grid" id="trendingGrid">
+            </div>
+
+        <h2 class="section-title">👑 Estilo Clan / Pro</h2>
+        <div class="nick-grid" id="clanGrid">
+            </div>
     </main>
 
-    <div id="toast">Copiado ✔️</div>
+    <div id="toast">Copiado con éxito ✔️</div>
 
     <script>
-        const mascNicks = ["꧁༒☬M4STR☬༒꧂", "亗 TOXICO 亗", "⚡ N I T R O ⚡", "SᴷS┃LUCIFER", "꧁HACKER꧂", "V I P Σ R", "K R A T O S 么"];
-        const styles = [["꧁", "꧂"], ["亗", "亗"], ["⚡", "⚡"], ["†", "†"], ["〆", "〆"], ["『", "』"]];
+        const trendingNicks = [
+            "꧁༒☬M4STR☬༒꧂", "亗 TOXICO 亗", "⚡ N I T R O ⚡", 
+            "SᴷS┃LUCIFER", "꧁HACKER꧂", "V I P Σ R", 
+            "ＭＡＦＩＡ", "Ghost-Rider", "Darkness", "ツ ØMΞGΛ",
+            "Broken-Heart 💔", "KING 👑 OF 👑 KINGS"
+        ];
 
-        function load(list, id) {
-            const c = document.getElementById(id);
-            list.forEach(n => { c.innerHTML += `<div class="nick-card" onclick="copy('${n}')"><span>${n}</span> <span class="copy-icon">COPIAR</span></div>`; });
-        }
+        const clanNicks = [
+            "꧁[GM] PREDATOR ꧂", "☯︎ ᴅᴀʀᴋ ꜱᴏᴜʟ ☯︎", "〆 BLACK 〆",
+            "『VLT』CRIMINAL", "꧁༺ JOKER ༻꧂", "⚡Sᴛᴏʀᴍ⚡",
+            "Bad-Boy 😈", "The-Pro 1", "亗 NOOB 亗"
+        ];
 
-        function generateCustom() {
-            const name = document.getElementById('mainInput').value;
-            if(!name) return;
-            const c = document.getElementById('customResults'); c.innerHTML = ""; document.getElementById('customSection').style.display = "block";
-            styles.forEach(s => {
-                let f = `${s[0]}${name}${s[1]}`;
-                c.innerHTML += `<div class="nick-card" onclick="copy('${f}')"><span>${f}</span> <span class="copy-icon">COPIAR</span></div>`;
+        const styles = [
+            ["꧁", "꧂"], ["亗", "亗"], ["⚡", "⚡"], ["†", "†"], 
+            ["〆", "〆"], ["(◣_◢)", ""], ["『", "』"], ["☬", "☬"],
+            ["★", "★"], ["ᴳᵒᵈ", ""], ["乂", "乂"]
+        ];
+
+        // Función para cargar los nicks en las grillas
+        function loadNicks(list, elementId) {
+            const container = document.getElementById(elementId);
+            list.forEach(nick => {
+                const card = document.createElement('div');
+                card.className = 'nick-card';
+                card.innerHTML = `<span>${nick}</span> <span class="copy-icon">COPIAR</span>`;
+                card.onclick = () => copyToClipboard(nick);
+                container.appendChild(card);
             });
         }
 
-        function copy(t) {
-            navigator.clipboard.writeText(t);
-            let m = document.getElementById('toast'); m.style.display = 'block'; setTimeout(() => m.style.display = 'none', 1500);
+        // Generar decoraciones personalizadas
+        function generateCustom() {
+            const name = document.getElementById('mainInput').value;
+            if(!name) return;
+            
+            const container = document.getElementById('customResults');
+            const section = document.getElementById('customSection');
+            container.innerHTML = "";
+            section.style.display = "block";
+
+            styles.forEach(st => {
+                const formatted = `${st[0]}${name}${st[1]}`;
+                const card = document.createElement('div');
+                card.className = 'nick-card';
+                card.innerHTML = `<span>${formatted}</span> <span class="copy-icon">COPIAR</span>`;
+                card.onclick = () => copyToClipboard(formatted);
+                container.appendChild(card);
+            });
+            window.scrollTo({ top: 200, behavior: 'smooth' });
         }
 
-        load(mascNicks, 'masculineGrid');
+        // Copiar al portapapeles
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                setTimeout(() => toast.style.display = 'none', 2000);
+            });
+        }
+
+        // Inicializar
+        loadNicks(trendingNicks, 'trendingGrid');
+        loadNicks(clanNicks, 'clanGrid');
     </script>
 </body>
 </html>
