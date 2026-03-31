@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuentes y Símbolos para Nicks | NickFFinsanos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b5998;
+            --bg-body: #f2f4f7;
+            --text-blue: #4a69bd;
+            --success: #2ecc71;
+            --sidebar-w: 270px;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-body); margin: 0; display: flex; color: #333; }
+
+        /* ── SIDEBAR ── */
+        nav.sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid #ddd; height: 100vh; position: sticky; top: 0; overflow-y: auto; flex-shrink: 0; }
+        .logo { background: var(--primary); text-align: center; border-bottom: 3px solid rgba(0,0,0,0.1); }
+        .logo a { display: block; padding: 22px; color: white; font-weight: 900; font-size: 1.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+        .sidebar-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; color: #555; text-decoration: none; border-bottom: 1px solid #f8f8f8; font-size: 0.95rem; }
+        .sidebar-item:hover, .sidebar-item.active { background: #f1f4f9; color: var(--primary); }
+        .sidebar-item i { width: 20px; font-size: 1.1rem; text-align: center; }
+        .sidebar-cat { background: #f0f4f8; padding: 12px 20px; font-size: 0.8rem; font-weight: bold; color: #7f8c8d; text-transform: uppercase; border-top: 1px solid #eee; }
+
+        /* ── MAIN ── */
+        main { flex: 1; padding: 25px; max-width: 1000px; margin: 0 auto; }
+
+        /* HERO */
+        .hero-box { background: white; padding: 35px 40px; border-radius: 4px; border: 1px solid #ddd; text-align: center; margin-bottom: 25px; }
+        .hero-box h1 { font-size: 2rem; margin: 0 0 8px; color: #222; }
+        .hero-box h1 span { color: var(--primary); }
+        .hero-box p { color: #666; margin: 0 0 22px; }
+        .input-wrap { display: flex; max-width: 650px; margin: 0 auto; border: 2px solid #ddd; border-radius: 4px; overflow: hidden; transition: border-color .2s; }
+        .input-wrap:focus-within { border-color: var(--primary); }
+        .input-wrap input { flex: 1; padding: 15px 18px; border: none; outline: none; font-size: 1.15rem; }
+        .input-wrap button { background: var(--primary); color: white; border: none; padding: 0 30px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: .9rem; transition: background .2s; }
+        .input-wrap button:hover { background: #2d4373; }
+        .hint { font-size: .82rem; color: #aaa; margin-top: 8px; }
+
+        /* SECCIÓN TÍTULOS */
+        .sec-title { font-size: 1.05rem; font-weight: 700; color: #444; margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
+        .sec-title::after { content:''; flex:1; height:1px; background:#e0e4ed; }
+
+        /* GRID DE FUENTES */
+        .fonts-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+        .font-row { background: white; border: 1px solid #dde1ec; border-radius: 4px; display: flex; align-items: center; padding: 0; overflow: hidden; transition: border-color .2s, box-shadow .2s; }
+        .font-row:hover { border-color: var(--primary); box-shadow: 0 2px 8px rgba(59,89,152,.08); }
+        .font-label { width: 160px; flex-shrink: 0; padding: 14px 16px; font-size: .78rem; font-weight: 700; color: #7f8c8d; text-transform: uppercase; letter-spacing: .5px; border-right: 1px solid #eee; background: #fafbfd; }
+        .font-preview { flex: 1; padding: 14px 18px; font-size: 1.3rem; letter-spacing: 1.5px; word-break: break-all; color: #222; min-height: 52px; }
+        .font-preview.placeholder { color: #ccc; font-size: 1rem; font-style: italic; letter-spacing: 0; }
+        .copy-btn { padding: 0 20px; height: 100%; min-height: 52px; background: none; border: none; border-left: 1px solid #eee; color: var(--text-blue); font-size: .82rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
+        .copy-btn:hover { background: var(--primary); color: white; }
+        .copy-btn .icon { display: block; font-size: 1rem; margin-bottom: 2px; }
+
+        /* SÍMBOLOS */
+        .sym-block { background: white; border: 1px solid #dde1ec; border-radius: 4px; margin-bottom: 12px; overflow: hidden; }
+        .sym-block-head { background: #f4f6fb; padding: 10px 18px; font-size: .82rem; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid #e8eaf2; display: flex; align-items: center; gap: 8px; }
+        .sym-block-body { padding: 14px 16px; display: flex; flex-wrap: wrap; gap: 7px; }
+        .sym-btn { background: #f7f9fc; border: 1px solid #e0e4ed; border-radius: 4px; padding: 7px 13px; font-size: 1.25rem; cursor: pointer; transition: background .15s, transform .1s, border-color .15s; color: #333; line-height: 1; }
+        .sym-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.12); }
+        .sym-btn:active { transform: scale(.97); }
+
+        /* MARCOS COMPLETOS */
+        .frame-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+        .frame-card { background: white; border: 1px solid #dde1ec; border-radius: 4px; padding: 12px 18px; cursor: pointer; transition: border-color .2s, background .2s; text-align: center; font-size: 1.1rem; }
+        .frame-card:hover { border-color: var(--primary); background: #f0f4ff; }
+        .frame-card small { display: block; font-size: .7rem; color: #aaa; margin-top: 4px; }
+
+        /* SEO */
+        .seo-footer { background: white; border: 1px solid #ddd; padding: 28px 30px; border-radius: 4px; margin-top: 40px; line-height: 1.75; color: #555; }
+        .seo-footer h3 { color: var(--primary); border-left: 5px solid var(--primary); padding-left: 14px; margin-top: 0; }
+        .seo-footer h4 { color: #444; margin-top: 22px; }
+
+        /* TOAST */
+        #toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: #1a1a2e; color: white; padding: 11px 32px; border-radius: 40px; display: none; font-weight: bold; font-size: .92rem; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <div class="logo"><a href="index.html">NickFFinsanos</a></div>
+    <a href="simbolos.html" class="sidebar-item active"><i class="fa-solid fa-gem" style="color:#00d2ff"></i> Fuente y símbolos</a>
+    <a href="combinar.html" class="sidebar-item"><i class="fa-solid fa-link" style="color:#7f8c8d"></i> Combinar dos nombres</a>
+    <a href="apodo-simbolos.html" class="sidebar-item"><i class="fa-solid fa-star" style="color:#f1c40f"></i> Apodo a símbolos</a>
+    <a href="generador-texto.html" class="sidebar-item"><i class="fa-solid fa-file-lines" style="color:#95a5a6"></i> Generador de texto</a>
+    <div class="sidebar-cat">CATEGORÍAS</div>
+    <a href="por-simbolo.html" class="sidebar-item"><i class="fa-solid fa-magnifying-glass" style="color:#7f8c8d"></i> Por símbolo</a>
+    <a href="masculino.html" class="sidebar-item"><i class="fa-solid fa-mars" style="color:#f39c12"></i> Nombres masculinos</a>
+    <a href="femenino.html" class="sidebar-item"><i class="fa-solid fa-venus" style="color:#f1c40f"></i> Nombres femeninos</a>
+    <a href="contrasenas.html" class="sidebar-item"><i class="fa-solid fa-lock" style="color:#2d3436"></i> Generador de contraseñas</a>
+    <a href="dominios.html" class="sidebar-item"><i class="fa-solid fa-earth-americas" style="color:#00d2ff"></i> Nombres de dominio</a>
+    <div class="sidebar-cat">POPULARES</div>
+    <a href="freefire.html" class="sidebar-item"><i class="fa-solid fa-gamepad" style="color:#2d3436"></i> Free Fire</a>
+    <a href="pubg-cod.html" class="sidebar-item"><i class="fa-solid fa-gun" style="color:#27ae60"></i> PUBG / COD</a>
+    <a href="minecraft.html" class="sidebar-item"><i class="fa-solid fa-cube" style="color:#8e44ad"></i> Minecraft</a>
+</nav>
+
+<main>
+
+    <!-- HERO -->
+    <div class="hero-box">
+        <h1>Generador de <span>Fuentes y Símbolos</span></h1>
+        <p>Escribe tu nick y ve cómo queda en más de 25 estilos de letra distintos. Haz clic en <b>Copiar</b> para pegarlo en tu juego.</p>
+        <div class="input-wrap">
+            <input type="text" id="nickInput" placeholder="Escribe tu nick aquí..." maxlength="30" autocomplete="off">
+            <button onclick="clearInput()">✕ Limpiar</button>
+        </div>
+        <div class="hint">El preview se actualiza automáticamente mientras escribes ✦</div>
+    </div>
+
+    <!-- FUENTES -->
+    <div class="sec-title">🔡 Estilos de fuente — preview en tiempo real</div>
+    <div class="fonts-grid" id="fontsGrid"></div>
+
+    <!-- MARCOS COMPLETOS -->
+    <div class="sec-title">🖼️ Marcos completos — haz clic para copiar</div>
+    <div class="frame-grid" id="framesGrid"></div>
+
+    <!-- SÍMBOLOS POR CATEGORÍA -->
+    <div class="sec-title">✨ Símbolos por categoría — haz clic para copiar</div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">🏮 Bordes y marcos tibetanos / asiáticos</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this)">꧁</button><button class="sym-btn" onclick="copySym(this)">꧂</button><button class="sym-btn" onclick="copySym(this)">༺</button><button class="sym-btn" onclick="copySym(this)">༻</button><button class="sym-btn" onclick="copySym(this)">༒</button><button class="sym-btn" onclick="copySym(this)">☬</button><button class="sym-btn" onclick="copySym(this)">彡</button><button class="sym-btn" onclick="copySym(this)">乄</button><button class="sym-btn" onclick="copySym(this)">ム</button><button class="sym-btn" onclick="copySym(this)">丂</button><button class="sym-btn" onclick="copySym(this)">卄</button><button class="sym-btn" onclick="copySym(this)">꩜</button><button class="sym-btn" onclick="copySym(this)">꩝</button><button class="sym-btn" onclick="copySym(this)">༄</button><button class="sym-btn" onclick="copySym(this)">༅</button><button class="sym-btn" onclick="copySym(this)">ཀ</button><button class="sym-btn" onclick="copySym(this)">྄</button><button class="sym-btn" onclick="copySym(this)">᭄</button>
+        </div>
+    </div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">⭐ Estrellas y destellos</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this)">★</button><button class="sym-btn" onclick="copySym(this)">☆</button><button class="sym-btn" onclick="copySym(this)">✦</button><button class="sym-btn" onclick="copySym(this)">✧</button><button class="sym-btn" onclick="copySym(this)">✩</button><button class="sym-btn" onclick="copySym(this)">✪</button><button class="sym-btn" onclick="copySym(this)">✫</button><button class="sym-btn" onclick="copySym(this)">✬</button><button class="sym-btn" onclick="copySym(this)">⭐</button><button class="sym-btn" onclick="copySym(this)">🌟</button><button class="sym-btn" onclick="copySym(this)">✨</button><button class="sym-btn" onclick="copySym(this)">💫</button><button class="sym-btn" onclick="copySym(this)">⋆</button><button class="sym-btn" onclick="copySym(this)">ꕥ</button><button class="sym-btn" onclick="copySym(this)">꙳</button><button class="sym-btn" onclick="copySym(this)">✵</button><button class="sym-btn" onclick="copySym(this)">✶</button><button class="sym-btn" onclick="copySym(this)">✷</button><button class="sym-btn" onclick="copySym(this)">✸</button><button class="sym-btn" onclick="copySym(this)">✹</button>
+        </div>
+    </div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">👑 Poder, rango y armas</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this)">♛</button><button class="sym-btn" onclick="copySym(this)">♜</button><button class="sym-btn" onclick="copySym(this)">♚</button><button class="sym-btn" onclick="copySym(this)">♟</button><button class="sym-btn" onclick="copySym(this)">👑</button><button class="sym-btn" onclick="copySym(this)">⚜</button><button class="sym-btn" onclick="copySym(this)">🏆</button><button class="sym-btn" onclick="copySym(this)">⚔️</button><button class="sym-btn" onclick="copySym(this)">🗡️</button><button class="sym-btn" onclick="copySym(this)">🔰</button><button class="sym-btn" onclick="copySym(this)">⛨</button><button class="sym-btn" onclick="copySym(this)">🛡️</button><button class="sym-btn" onclick="copySym(this)">💀</button><button class="sym-btn" onclick="copySym(this)">☠️</button><button class="sym-btn" onclick="copySym(this)">⛧</button><button class="sym-btn" onclick="copySym(this)">✝</button><button class="sym-btn" onclick="copySym(this)">✞</button><button class="sym-btn" onclick="copySym(this)">☩</button><button class="sym-btn" onclick="copySym(this)">🔱</button><button class="sym-btn" onclick="copySym(this)">⚜️</button>
+        </div>
+    </div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">⚡ Elementos y naturaleza</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this)">🔥</button><button class="sym-btn" onclick="copySym(this)">⚡</button><button class="sym-btn" onclick="copySym(this)">💧</button><button class="sym-btn" onclick="copySym(this)">❄️</button><button class="sym-btn" onclick="copySym(this)">🌊</button><button class="sym-btn" onclick="copySym(this)">🌪️</button><button class="sym-btn" onclick="copySym(this)">🌙</button><button class="sym-btn" onclick="copySym(this)">☀️</button><button class="sym-btn" onclick="copySym(this)">🌑</button><button class="sym-btn" onclick="copySym(this)">🌕</button><button class="sym-btn" onclick="copySym(this)">☁️</button><button class="sym-btn" onclick="copySym(this)">⛅</button><button class="sym-btn" onclick="copySym(this)">🌈</button><button class="sym-btn" onclick="copySym(this)">🍃</button><button class="sym-btn" onclick="copySym(this)">🌿</button><button class="sym-btn" onclick="copySym(this)">🐉</button><button class="sym-btn" onclick="copySym(this)">🦅</button><button class="sym-btn" onclick="copySym(this)">🐺</button><button class="sym-btn" onclick="copySym(this)">🦁</button><button class="sym-btn" onclick="copySym(this)">🐍</button>
+        </div>
+    </div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">💠 Formas geométricas y flechas</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this)">◆</button><button class="sym-btn" onclick="copySym(this)">◇</button><button class="sym-btn" onclick="copySym(this)">◈</button><button class="sym-btn" onclick="copySym(this)">◉</button><button class="sym-btn" onclick="copySym(this)">◎</button><button class="sym-btn" onclick="copySym(this)">●</button><button class="sym-btn" onclick="copySym(this)">○</button><button class="sym-btn" onclick="copySym(this)">■</button><button class="sym-btn" onclick="copySym(this)">□</button><button class="sym-btn" onclick="copySym(this)">▲</button><button class="sym-btn" onclick="copySym(this)">△</button><button class="sym-btn" onclick="copySym(this)">▸</button><button class="sym-btn" onclick="copySym(this)">◂</button><button class="sym-btn" onclick="copySym(this)">➤</button><button class="sym-btn" onclick="copySym(this)">➥</button><button class="sym-btn" onclick="copySym(this)">↯</button><button class="sym-btn" onclick="copySym(this)">⟶</button><button class="sym-btn" onclick="copySym(this)">⇒</button><button class="sym-btn" onclick="copySym(this)">💠</button><button class="sym-btn" onclick="copySym(this)">🔷</button><button class="sym-btn" onclick="copySym(this)">🔹</button>
+        </div>
+    </div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">💕 Amor, kawaii y flores</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this)">♥</button><button class="sym-btn" onclick="copySym(this)">❤</button><button class="sym-btn" onclick="copySym(this)">💖</button><button class="sym-btn" onclick="copySym(this)">💕</button><button class="sym-btn" onclick="copySym(this)">💗</button><button class="sym-btn" onclick="copySym(this)">💓</button><button class="sym-btn" onclick="copySym(this)">💞</button><button class="sym-btn" onclick="copySym(this)">💘</button><button class="sym-btn" onclick="copySym(this)">🌸</button><button class="sym-btn" onclick="copySym(this)">🌺</button><button class="sym-btn" onclick="copySym(this)">🌻</button><button class="sym-btn" onclick="copySym(this)">🌹</button><button class="sym-btn" onclick="copySym(this)">🦋</button><button class="sym-btn" onclick="copySym(this)">ꔫ</button><button class="sym-btn" onclick="copySym(this)">✿</button><button class="sym-btn" onclick="copySym(this)">❀</button><button class="sym-btn" onclick="copySym(this)">ʚ</button><button class="sym-btn" onclick="copySym(this)">ɞ</button><button class="sym-btn" onclick="copySym(this)">ིི</button><button class="sym-btn" onclick="copySym(this)">ꕤ</button><button class="sym-btn" onclick="copySym(this)">ꗥ</button>
+        </div>
+    </div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">🔤 Letras especiales y monedas</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this)">₦</button><button class="sym-btn" onclick="copySym(this)">Ї</button><button class="sym-btn" onclick="copySym(this)">ℑ</button><button class="sym-btn" onclick="copySym(this)">₳</button><button class="sym-btn" onclick="copySym(this)">₿</button><button class="sym-btn" onclick="copySym(this)">€</button><button class="sym-btn" onclick="copySym(this)">£</button><button class="sym-btn" onclick="copySym(this)">¥</button><button class="sym-btn" onclick="copySym(this)">Ø</button><button class="sym-btn" onclick="copySym(this)">ℜ</button><button class="sym-btn" onclick="copySym(this)">ℭ</button><button class="sym-btn" onclick="copySym(this)">ℌ</button><button class="sym-btn" onclick="copySym(this)">ℍ</button><button class="sym-btn" onclick="copySym(this)">ℕ</button><button class="sym-btn" onclick="copySym(this)">ℙ</button><button class="sym-btn" onclick="copySym(this)">ℚ</button><button class="sym-btn" onclick="copySym(this)">ℝ</button><button class="sym-btn" onclick="copySym(this)">ℤ</button><button class="sym-btn" onclick="copySym(this)">Ω</button><button class="sym-btn" onclick="copySym(this)">Δ</button><button class="sym-btn" onclick="copySym(this)">Σ</button><button class="sym-btn" onclick="copySym(this)">Ψ</button><button class="sym-btn" onclick="copySym(this)">Λ</button><button class="sym-btn" onclick="copySym(this)">Φ</button>
+        </div>
+    </div>
+
+    <div class="sym-block">
+        <div class="sym-block-head">🫥 Espacios invisibles (para separar sin puntos)</div>
+        <div class="sym-block-body">
+            <button class="sym-btn" onclick="copySym(this,'ㅤ')" title="Espacio Hangul — el más usado en Free Fire">ㅤ <small style="font-size:.6rem;display:block;color:#999">Hangul</small></button>
+            <button class="sym-btn" onclick="copySym(this,'\u00a0')" title="Non-breaking space">⬜ <small style="font-size:.6rem;display:block;color:#999">NBSP</small></button>
+            <button class="sym-btn" onclick="copySym(this,'᲼')" title="Espacio invisible Unicode">᲼ <small style="font-size:.6rem;display:block;color:#999">Invisible</small></button>
+            <button class="sym-btn" onclick="copySym(this,'\u200b')" title="Zero Width Space">​ <small style="font-size:.6rem;display:block;color:#999">ZWS</small></button>
+            <button class="sym-btn" onclick="copySym(this,'\u200c')" title="Zero Width Non-Joiner">‌ <small style="font-size:.6rem;display:block;color:#999">ZWNJ</small></button>
+        </div>
+    </div>
+
+    <!-- SEO -->
+    <div class="seo-footer">
+        <h3>Guía de fuentes y símbolos para nicks de juegos</h3>
+        <p>Las <b>fuentes Unicode</b> no son imágenes — son caracteres reales del estándar internacional de texto, por eso funcionan en Free Fire, PUBG, Minecraft y redes sociales sin necesidad de instalar nada.</p>
+        <h4>¿Cuáles fuentes funcionan en cada juego?</h4>
+        <p><b>Free Fire:</b> Compatible con casi todos los Unicode. Gótico, Script, Doble trazo, Cherokee y superíndice funcionan perfectamente.<br>
+        <b>PUBG / COD:</b> Soporte parcial. Funcionan bien las fuentes matemáticas (𝗻𝗲𝗴𝗿𝗶𝘁𝗮 𝘀𝗮𝗻𝘀) y el monoespaciado. El gótico a veces se muestra como cuadros.<br>
+        <b>Minecraft Java:</b> Solo acepta ASCII básico en el nombre de cuenta, pero en servidores con el plugin EssentialsX puedes usar /nick con Unicode.</p>
+        <h4>Tip: combina fuente + símbolo</h4>
+        <p>El truco de los nicks más votados es combinar una fuente decorativa con marcos simétricos. Ejemplo: escribe <code>𝓓𝓪𝓻𝓴</code> (Script) y envuélvelo en <code>꧁༺ 𝓓𝓪𝓻𝓴 ༻꧂</code>. El resultado tiene impacto visual sin ser ilegible.</p>
+    </div>
+
+</main>
+
+<div id="toast">✔️ Copiado</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   TABLAS DE CONVERSIÓN — 26 estilos
+═══════════════════════════════════════════ */
+const fonts = [
+  { label: 'Gótico / Fraktur',       map: {'a':'𝖆','b':'𝖇','c':'𝖈','d':'𝖉','e':'𝖊','f':'𝖋','g':'𝖌','h':'𝖍','i':'𝖎','j':'𝖏','k':'𝖐','l':'𝖑','m':'𝖒','n':'𝖓','o':'𝖔','p':'𝖕','q':'𝖖','r':'𝖗','s':'𝖘','t':'𝖙','u':'𝖚','v':'𝖛','w':'𝖜','x':'𝖝','y':'𝖞','z':'𝖟','A':'𝕬','B':'𝕭','C':'𝕮','D':'𝕯','E':'𝕰','F':'𝕱','G':'𝕲','H':'𝕳','I':'𝕴','J':'𝕵','K':'𝕶','L':'𝕷','M':'𝕸','N':'𝕹','O':'𝕺','P':'𝕻','Q':'𝕼','R':'𝕽','S':'𝕾','T':'𝕿','U':'𝖀','V':'𝖁','W':'𝖂','X':'𝖃','Y':'𝖄','Z':'𝖅'} },
+  { label: 'Script / Cursiva',        map: {'a':'𝓪','b':'𝓫','c':'𝓬','d':'𝓭','e':'𝓮','f':'𝓯','g':'𝓰','h':'𝓱','i':'𝓲','j':'𝓳','k':'𝓴','l':'𝓵','m':'𝓶','n':'𝓷','o':'𝓸','p':'𝓹','q':'𝓺','r':'𝓻','s':'𝓼','t':'𝓽','u':'𝓾','v':'𝓿','w':'𝔀','x':'𝔁','y':'𝔂','z':'𝔃','A':'𝓐','B':'𝓑','C':'𝓒','D':'𝓓','E':'𝓔','F':'𝓕','G':'𝓖','H':'𝓗','I':'𝓘','J':'𝓙','K':'𝓚','L':'𝓛','M':'𝓜','N':'𝓝','O':'𝓞','P':'𝓟','Q':'𝓠','R':'𝓡','S':'𝓢','T':'𝓣','U':'𝓤','V':'𝓥','W':'𝓦','X':'𝓧','Y':'𝓨','Z':'𝓩'} },
+  { label: 'Doble trazo',             map: {'a':'𝕒','b':'𝕓','c':'𝕔','d':'𝕕','e':'𝕖','f':'𝕗','g':'𝕘','h':'𝕙','i':'𝕚','j':'𝕛','k':'𝕜','l':'𝕝','m':'𝕞','n':'𝕟','o':'𝕠','p':'𝕡','q':'𝕢','r':'𝕣','s':'𝕤','t':'𝕥','u':'𝕦','v':'𝕧','w':'𝕨','x':'𝕩','y':'𝕪','z':'𝕫','A':'𝔸','B':'𝔹','C':'ℂ','D':'𝔻','E':'𝔼','F':'𝔽','G':'𝔾','H':'ℍ','I':'𝕀','J':'𝕁','K':'𝕂','L':'𝕃','M':'𝕄','N':'ℕ','O':'𝕆','P':'ℙ','Q':'ℚ','R':'ℝ','S':'𝕊','T':'𝕋','U':'𝕌','V':'𝕍','W':'𝕎','X':'𝕏','Y':'𝕐','Z':'ℤ'} },
+  { label: 'Sans-serif negrita',      map: {'a':'𝗮','b':'𝗯','c':'𝗰','d':'𝗱','e':'𝗲','f':'𝗳','g':'𝗴','h':'𝗵','i':'𝗶','j':'𝗷','k':'𝗸','l':'𝗹','m':'𝗺','n':'𝗻','o':'𝗼','p':'𝗽','q':'𝗾','r':'𝗿','s':'𝘀','t':'𝘁','u':'𝘂','v':'𝘃','w':'𝘄','x':'𝘅','y':'𝘆','z':'𝘇','A':'𝗔','B':'𝗕','C':'𝗖','D':'𝗗','E':'𝗘','F':'𝗙','G':'𝗚','H':'𝗛','I':'𝗜','J':'𝗝','K':'𝗞','L':'𝗟','M':'𝗠','N':'𝗡','O':'𝗢','P':'𝗣','Q':'𝗤','R':'𝗥','S':'𝗦','T':'𝗧','U':'𝗨','V':'𝗩','W':'𝗪','X':'𝗫','Y':'𝗬','Z':'𝗭'} },
+  { label: 'Sans-serif cursiva',      map: {'a':'𝘢','b':'𝘣','c':'𝘤','d':'𝘥','e':'𝘦','f':'𝘧','g':'𝘨','h':'𝘩','i':'𝘪','j':'𝘫','k':'𝘬','l':'𝘭','m':'𝘮','n':'𝘯','o':'𝘰','p':'𝘱','q':'𝘲','r':'𝘳','s':'𝘴','t':'𝘵','u':'𝘶','v':'𝘷','w':'𝘸','x':'𝘹','y':'𝘺','z':'𝘻','A':'𝘈','B':'𝘉','C':'𝘊','D':'𝘋','E':'𝘌','F':'𝘍','G':'𝘎','H':'𝘏','I':'𝘐','J':'𝘑','K':'𝘒','L':'𝘓','M':'𝘔','N':'𝘕','O':'𝘖','P':'𝘗','Q':'𝘘','R':'𝘙','S':'𝘚','T':'𝘛','U':'𝘜','V':'𝘝','W':'𝘞','X':'𝘟','Y':'𝘠','Z':'𝘡'} },
+  { label: 'Negrita cursiva sans',    map: {'a':'𝙖','b':'𝙗','c':'𝙘','d':'𝙙','e':'𝙚','f':'𝙛','g':'𝙜','h':'𝙝','i':'𝙞','j':'𝙟','k':'𝙠','l':'𝙡','m':'𝙢','n':'𝙣','o':'𝙤','p':'𝙥','q':'𝙦','r':'𝙧','s':'𝙨','t':'𝙩','u':'𝙪','v':'𝙫','w':'𝙬','x':'𝙭','y':'𝙮','z':'𝙯','A':'𝘼','B':'𝘽','C':'𝘾','D':'𝘿','E':'𝙀','F':'𝙁','G':'𝙂','H':'𝙃','I':'𝙄','J':'𝙅','K':'𝙆','L':'𝙇','M':'𝙈','N':'𝙉','O':'𝙊','P':'𝙋','Q':'𝙌','R':'𝙍','S':'𝙎','T':'𝙏','U':'𝙐','V':'𝙑','W':'𝙒','X':'𝙓','Y':'𝙔','Z':'𝙕'} },
+  { label: 'Monoespaciado',           map: {'a':'𝚊','b':'𝚋','c':'𝚌','d':'𝚍','e':'𝚎','f':'𝚏','g':'𝚐','h':'𝚑','i':'𝚒','j':'𝚓','k':'𝚔','l':'𝚕','m':'𝚖','n':'𝚗','o':'𝚘','p':'𝚙','q':'𝚚','r':'𝚛','s':'𝚜','t':'𝚝','u':'𝚞','v':'𝚟','w':'𝚠','x':'𝚡','y':'𝚢','z':'𝚣','A':'𝙰','B':'𝙱','C':'𝙲','D':'𝙳','E':'𝙴','F':'𝙵','G':'𝙶','H':'𝙷','I':'𝙸','J':'𝙹','K':'𝙺','L':'𝙻','M':'𝙼','N':'𝙽','O':'𝙾','P':'𝙿','Q':'𝚀','R':'𝚁','S':'𝚂','T':'𝚃','U':'𝚄','V':'𝚅','W':'𝚆','X':'𝚇','Y':'𝚈','Z':'𝚉'} },
+  { label: 'Serif negrita',           map: {'a':'𝐚','b':'𝐛','c':'𝐜','d':'𝐝','e':'𝐞','f':'𝐟','g':'𝐠','h':'𝐡','i':'𝐢','j':'𝐣','k':'𝐤','l':'𝐥','m':'𝐦','n':'𝐧','o':'𝐨','p':'𝐩','q':'𝐪','r':'𝐫','s':'𝐬','t':'𝐭','u':'𝐮','v':'𝐯','w':'𝐰','x':'𝐱','y':'𝐲','z':'𝐳','A':'𝐀','B':'𝐁','C':'𝐂','D':'𝐃','E':'𝐄','F':'𝐅','G':'𝐆','H':'𝐇','I':'𝐈','J':'𝐉','K':'𝐊','L':'𝐋','M':'𝐌','N':'𝐍','O':'𝐎','P':'𝐏','Q':'𝐐','R':'𝐑','S':'𝐒','T':'𝐓','U':'𝐔','V':'𝐕','W':'𝐖','X':'𝐗','Y':'𝐘','Z':'𝐙'} },
+  { label: 'Serif cursiva',           map: {'a':'𝑎','b':'𝑏','c':'𝑐','d':'𝑑','e':'𝑒','f':'𝑓','g':'𝑔','h':'ℎ','i':'𝑖','j':'𝑗','k':'𝑘','l':'𝑙','m':'𝑚','n':'𝑛','o':'𝑜','p':'𝑝','q':'𝑞','r':'𝑟','s':'𝑠','t':'𝑡','u':'𝑢','v':'𝑣','w':'𝑤','x':'𝑥','y':'𝑦','z':'𝑧','A':'𝐴','B':'𝐵','C':'𝐶','D':'𝐷','E':'𝐸','F':'𝐹','G':'𝐺','H':'𝐻','I':'𝐼','J':'𝐽','K':'𝐾','L':'𝐿','M':'𝑀','N':'𝑁','O':'𝑂','P':'𝑃','Q':'𝑄','R':'𝑅','S':'𝑆','T':'𝑇','U':'𝑈','V':'𝑉','W':'𝑊','X':'𝑋','Y':'𝑌','Z':'𝑍'} },
+  { label: 'Serif negrita cursiva',   map: {'a':'𝒂','b':'𝒃','c':'𝒄','d':'𝒅','e':'𝒆','f':'𝒇','g':'𝒈','h':'𝒉','i':'𝒊','j':'𝒋','k':'𝒌','l':'𝒍','m':'𝒎','n':'𝒏','o':'𝒐','p':'𝒑','q':'𝒒','r':'𝒓','s':'𝒔','t':'𝒕','u':'𝒖','v':'𝒗','w':'𝒘','x':'𝒙','y':'𝒚','z':'𝒛','A':'𝑨','B':'𝑩','C':'𝑪','D':'𝑫','E':'𝑬','F':'𝑭','G':'𝑮','H':'𝑯','I':'𝑰','J':'𝑱','K':'𝑲','L':'𝑳','M':'𝑴','N':'𝑵','O':'𝑶','P':'𝑷','Q':'𝑸','R':'𝑹','S':'𝑺','T':'𝑻','U':'𝑼','V':'𝑽','W':'𝑾','X':'𝑿','Y':'𝒀','Z':'𝒁'} },
+  { label: 'Script ligero',           map: {'a':'𝒶','b':'𝒷','c':'𝒸','d':'𝒹','e':'ℯ','f':'𝒻','g':'ℊ','h':'𝒽','i':'𝒾','j':'𝒿','k':'𝓀','l':'𝓁','m':'𝓂','n':'𝓃','o':'ℴ','p':'𝓅','q':'𝓆','r':'𝓇','s':'𝓈','t':'𝓉','u':'𝓊','v':'𝓋','w':'𝓌','x':'𝓍','y':'𝓎','z':'𝓏','A':'𝒜','B':'ℬ','C':'𝒞','D':'𝒟','E':'ℰ','F':'ℱ','G':'𝒢','H':'ℋ','I':'ℐ','J':'𝒥','K':'𝒦','L':'ℒ','M':'ℳ','N':'𝒩','O':'𝒪','P':'𝒫','Q':'𝒬','R':'ℛ','S':'𝒮','T':'𝒯','U':'𝒰','V':'𝒱','W':'𝒲','X':'𝒳','Y':'𝒴','Z':'𝒵'} },
+  { label: 'Círculos (○)',            convert: s => s.split('').map(c => { const code = c.charCodeAt(0); if(code>=65&&code<=90) return String.fromCodePoint(9398+code-65); if(code>=97&&code<=122) return String.fromCodePoint(9424+code-97); if(code>=48&&code<=57) return ['⓪','①','②','③','④','⑤','⑥','⑦','⑧','⑨'][code-48]; return c; }).join('') },
+  { label: 'Círculos rellenos (●)',   convert: s => s.split('').map(c => { const code = c.charCodeAt(0); if(code>=65&&code<=90) return String.fromCodePoint(9398+code-65); if(code>=97&&code<=122) return ['🅐','🅑','🅒','🅓','🅔','🅕','🅖','🅗','🅘','🅙','🅚','🅛','🅜','🅝','🅞','🅟','🅠','🅡','🅢','🅣','🅤','🅥','🅦','🅧','🅨','🅩'][code-97] || c; return c; }).join('') },
+  { label: 'Cuadrados (□)',           convert: s => s.split('').map(c => { const code = c.charCodeAt(0); if(code>=65&&code<=90) return ['🄰','🄱','🄲','🄳','🄴','🄵','🄶','🄷','🄸','🄹','🄺','🄻','🄼','🄽','🄾','🄿','🅀','🅁','🅂','🅃','🅄','🅅','🅆','🅇','🅈','🅉'][code-65] || c; return c; }).join('') },
+  { label: 'Superíndice pequeño',     convert: s => s.split('').map(c => ({'a':'ᵃ','b':'ᵇ','c':'ᶜ','d':'ᵈ','e':'ᵉ','f':'ᶠ','g':'ᵍ','h':'ʰ','i':'ⁱ','j':'ʲ','k':'ᵏ','l':'ˡ','m':'ᵐ','n':'ⁿ','o':'ᵒ','p':'ᵖ','q':'q','r':'ʳ','s':'ˢ','t':'ᵗ','u':'ᵘ','v':'ᵛ','w':'ʷ','x':'ˣ','y':'ʸ','z':'ᶻ','A':'ᴬ','B':'ᴮ','C':'ᶜ','D':'ᴰ','E':'ᴱ','F':'ᶠ','G':'ᴳ','H':'ᴴ','I':'ᴵ','J':'ᴶ','K':'ᴷ','L':'ᴸ','M':'ᴹ','N':'ᴺ','O':'ᴼ','P':'ᴾ','Q':'Q','R':'ᴿ','S':'ˢ','T':'ᵀ','U':'ᵁ','V':'ⱽ','W':'ᵂ','X':'ˣ','Y':'ʸ','Z':'ᶻ'}[c] || c)).join('') },
+  { label: 'Tachado',                 convert: s => s.split('').map(c => c + '̶').join('') },
+  { label: 'Subrayado',               convert: s => s.split('').map(c => c + '̲').join('') },
+  { label: 'Doble subrayado',         convert: s => s.split('').map(c => c + '̳').join('') },
+  { label: 'Sobre línea',             convert: s => s.split('').map(c => c + '̄').join('') },
+  { label: 'Puntos arriba',           convert: s => s.split('').map(c => c + '̈').join('') },
+  { label: 'Voltear al revés',        convert: s => s.split('').reverse().map(c => ({'a':'ɐ','b':'q','c':'ɔ','d':'p','e':'ǝ','f':'ɟ','g':'ƃ','h':'ɥ','i':'ᴉ','j':'ɾ','k':'ʞ','l':'l','m':'ɯ','n':'u','o':'o','p':'d','q':'b','r':'ɹ','s':'s','t':'ʇ','u':'n','v':'ʌ','w':'ʍ','x':'x','y':'ʎ','z':'z','A':'∀','B':'ᗺ','C':'Ɔ','D':'ᗡ','E':'Ǝ','F':'Ⅎ','G':'פ','H':'H','I':'I','J':'ſ','K':'ʞ','L':'˥','M':'W','N':'N','O':'O','P':'Ԁ','Q':'Q','R':'ᴚ','S':'S','T':'┴','U':'∩','V':'Λ','W':'M','X':'X','Y':'⅄','Z':'Z'}[c] || c)).join('') },
+  { label: 'Estilo antiguo',          map: {'a':'α','b':'в','c':'¢','d':'∂','e':'є','f':'ƒ','g':'ﻭ','h':'н','i':'ι','j':'נ','k':'к','l':'ℓ','m':'м','n':'η','o':'σ','p':'ρ','q':'q','r':'я','s':'ѕ','t':'т','u':'υ','v':'ν','w':'ω','x':'χ','y':'у','z':'z','A':'Λ','B':'Β','C':'Ç','D':'Ð','E':'Ε','F':'Ƒ','G':'Ǥ','H':'Η','I':'Ι','J':'נ','K':'Κ','L':'Ĺ','M':'Μ','N':'Ν','O':'Θ','P':'Ρ','Q':'Q','R':'Ŗ','S':'Ş','T':'Τ','U':'Ữ','V':'V','W':'Ω','X':'Χ','Y':'Ψ','Z':'Ζ'} },
+  { label: 'Cherokee / Raras',        map: {'a':'Ꭺ','b':'Ᏸ','c':'Ꮯ','d':'Ꭰ','e':'Ꮛ','f':'Ꮀ','g':'Ꮆ','h':'Ꮋ','i':'Ꭵ','j':'Ꮰ','k':'Ꮶ','l':'Ꮮ','m':'Ꮇ','n':'Ꮑ','o':'Ꭷ','p':'Ꭾ','q':'Ꭴ','r':'Ꮢ','s':'Ꮥ','t':'Ꮦ','u':'Ꮼ','v':'Ꮙ','w':'Ꮃ','x':'Ꮖ','y':'Ꮍ','z':'Ꮓ','A':'Ꭺ','B':'Ᏸ','C':'Ꮯ','D':'Ꭰ','E':'Ꮛ','F':'Ꮀ','G':'Ꮆ','H':'Ꮋ','I':'Ꭵ','J':'Ꮰ','K':'Ꮶ','L':'Ꮮ','M':'Ꮇ','N':'Ꮑ','O':'Ꭷ','P':'Ꭾ','Q':'Ꭴ','R':'Ꮢ','S':'Ꮥ','T':'Ꮦ','U':'Ꮼ','V':'Ꮙ','W':'Ꮃ','X':'Ꮖ','Y':'Ꮍ','Z':'Ꮓ'} },
+  { label: 'Letras anchas',           convert: s => s.split('').map(c => { const code = c.charCodeAt(0); if(code>=33&&code<=126) return String.fromCodePoint(code+65248); return c; }).join('') },
+  { label: 'Puntuación decorativa',   convert: s => s.split('').map(c => ({'a':'ꍏ','b':'ꌃ','c':'ꉔ','d':'ꀸ','e':'ꍟ','f':'ꎇ','g':'ꁅ','h':'ꃅ','i':'ꀤ','j':'ꀭ','k':'ꀗ','l':'ꒉ','m':'ꂵ','n':'ꁹ','o':'ꄲ','p':'ꉣ','q':'ꁃ','r':'ꋪ','s':'ꌗ','t':'꓄','u':'ꀎ','v':'ꃴ','w':'ꅏ','x':'ꊼ','y':'ꌩ','z':'ꁴ','A':'ꍏ','B':'ꌃ','C':'ꉔ','D':'ꀸ','E':'ꍟ','F':'ꎇ','G':'ꁅ','H':'ꃅ','I':'ꀤ','J':'ꀭ','K':'ꀗ','L':'ꒉ','M':'ꂵ','N':'ꁹ','O':'ꄲ','P':'ꉣ','Q':'ꁃ','R':'ꋪ','S':'ꌗ','T':'꓄','U':'ꀎ','V':'ꃴ','W':'ꅏ','X':'ꊼ','Y':'ꌩ','Z':'ꁴ'}[c] || c)).join('') },
+  { label: 'Barras diagonales',       convert: s => s.split('').map(c => c + '̷').join('') },
+  { label: 'Llamas / Arriba',         convert: s => s.split('').map(c => c + '͆').join('') },
+];
+
+/* ═══════════════════════════════════════════
+   MARCOS COMPLETOS
+═══════════════════════════════════════════ */
+const frames = [
+  '꧁༺ {NICK} ༻꧂',
+  '☆꧁༒ {NICK} ༒꧂☆',
+  '꧁✞ {NICK} ✞꧂',
+  '꧁༒☬ {NICK} ☬༒꧂',
+  '★彡 {NICK} 彡★',
+  '༄ {NICK} 彡',
+  '『 {NICK} 』',
+  '【 {NICK} 】',
+  '《 {NICK} 》',
+  '✦ {NICK} ✦',
+  '♛ {NICK} ♛',
+  '⌈ {NICK} ⌋',
+  '꧁⚔️ {NICK} ⚔️꧂',
+  '꧁💀 {NICK} 💀꧂',
+  '▸ {NICK} ◂',
+  '◆ {NICK} ◆',
+  '✿ {NICK} ✿',
+  '🔥 {NICK} 🔥',
+  '💠 {NICK} 💠',
+  '👑 {NICK} 👑',
+  '꧁ᴳᵒᵈ• {NICK} •ᴳᵒᵈ꧂',
+  '░▒▓ {NICK} ▓▒░',
+  '⋆。゚ {NICK} ゚。⋆',
+  '꩜ {NICK} ꩜',
+  '༄᭄ {NICK} ᭄༄',
+];
+
+/* ═══════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════ */
+function convert(fontObj, text) {
+  if(fontObj.convert) return fontObj.convert(text);
+  return text.split('').map(c => fontObj.map[c] || c).join('');
+}
+
+function renderFonts(text) {
+  const grid = document.getElementById('fontsGrid');
+  grid.innerHTML = '';
+  fonts.forEach(f => {
+    const converted = text ? convert(f, text) : '';
+    const row = document.createElement('div');
+    row.className = 'font-row';
+    row.innerHTML = `
+      <div class="font-label">${f.label}</div>
+      <div class="font-preview ${!text ? 'placeholder' : ''}">${text ? escHtml(converted) : 'Escribe tu nick arriba…'}</div>
+      <button class="copy-btn" onclick="copy('${escJs(converted)}')" ${!text ? 'disabled' : ''}>
+        <span class="icon">⎘</span>Copiar
+      </button>`;
+    grid.appendChild(row);
+  });
+}
+
+function renderFrames(text) {
+  const grid = document.getElementById('framesGrid');
+  grid.innerHTML = '';
+  const display = text || 'NICK';
+  frames.forEach(f => {
+    const full = f.replace('{NICK}', display);
+    const card = document.createElement('div');
+    card.className = 'frame-card';
+    card.innerHTML = `${escHtml(full)}<small>clic para copiar</small>`;
+    card.onclick = () => copy(full);
+    grid.appendChild(card);
+  });
+}
+
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function escJs(s)   { return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+
+// ——— Input en tiempo real ———
+const input = document.getElementById('nickInput');
+input.addEventListener('input', () => {
+  renderFonts(input.value.trim());
+  renderFrames(input.value.trim());
+});
+
+// ——— Limpiar ———
+function clearInput() {
+  input.value = '';
+  renderFonts('');
+  renderFrames('');
+}
+
+// ——— Copiar ———
+function copy(text) {
+  navigator.clipboard.writeText(text);
+  showToast('✔️ Copiado: ' + text.slice(0,22) + (text.length>22?'…':''));
+}
+function copySym(btn, override) {
+  const sym = override !== undefined ? override : btn.textContent.trim().split('\n')[0];
+  navigator.clipboard.writeText(sym);
+  showToast('✔️ Símbolo copiado: ' + sym);
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.style.display = 'none', 1800);
+}
+
+// Render inicial
+renderFonts('');
+renderFrames('');
+</script>
+</body>
+</html>
