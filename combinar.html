@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combinar Dos Nombres | NickFFinsanos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b5998;
+            --bg-body: #f2f4f7;
+            --text-blue: #4a69bd;
+            --success: #2ecc71;
+            --sidebar-w: 270px;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-body); margin: 0; display: flex; color: #333; }
+
+        /* ── SIDEBAR ── */
+        nav.sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid #ddd; height: 100vh; position: sticky; top: 0; overflow-y: auto; flex-shrink: 0; }
+        .logo { background: var(--primary); text-align: center; border-bottom: 3px solid rgba(0,0,0,0.1); }
+        .logo a { display: block; padding: 22px; color: white; font-weight: 900; font-size: 1.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+        .sidebar-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; color: #555; text-decoration: none; border-bottom: 1px solid #f8f8f8; font-size: 0.95rem; }
+        .sidebar-item:hover, .sidebar-item.active { background: #f1f4f9; color: var(--primary); }
+        .sidebar-item i { width: 20px; font-size: 1.1rem; text-align: center; }
+        .sidebar-cat { background: #f0f4f8; padding: 12px 20px; font-size: 0.8rem; font-weight: bold; color: #7f8c8d; text-transform: uppercase; border-top: 1px solid #eee; }
+
+        /* ── MAIN ── */
+        main { flex: 1; padding: 25px; max-width: 1000px; margin: 0 auto; }
+
+        /* HERO */
+        .hero-box { background: white; padding: 35px 40px; border-radius: 4px; border: 1px solid #ddd; text-align: center; margin-bottom: 25px; }
+        .hero-box h1 { font-size: 2rem; margin: 0 0 8px; color: #222; }
+        .hero-box h1 span { color: var(--primary); }
+        .hero-box p { color: #666; margin: 0 0 24px; }
+
+        /* INPUTS */
+        .inputs-row { display: flex; gap: 16px; max-width: 700px; margin: 0 auto; align-items: center; }
+        .input-box { flex: 1; }
+        .input-box label { display: block; font-size: .8rem; font-weight: 700; color: #7f8c8d; text-transform: uppercase; margin-bottom: 6px; letter-spacing: .5px; }
+        .input-box input { width: 100%; padding: 14px 16px; border: 2px solid #ddd; border-radius: 4px; font-size: 1.1rem; outline: none; transition: border-color .2s; }
+        .input-box input:focus { border-color: var(--primary); }
+        .plus-icon { font-size: 1.8rem; color: #ccc; flex-shrink: 0; margin-top: 20px; }
+        .hint { font-size: .82rem; color: #aaa; margin-top: 10px; }
+
+        /* FILTROS */
+        .filters { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+        .filter-btn { padding: 7px 18px; border: 2px solid #dde1ec; border-radius: 40px; background: white; font-size: .85rem; font-weight: 700; color: #7f8c8d; cursor: pointer; transition: .15s; }
+        .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-btn.on { background: var(--primary); border-color: var(--primary); color: white; }
+
+        /* CONTADOR */
+        .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .results-count { font-size: .85rem; color: #7f8c8d; font-weight: 700; }
+
+        /* SECCIÓN */
+        .sec-title { font-size: 1rem; font-weight: 700; color: #444; margin: 24px 0 10px; display: flex; align-items: center; gap: 8px; }
+        .sec-title::after { content:''; flex:1; height:1px; background:#e0e4ed; }
+        .sec-badge { font-size: .7rem; background: var(--primary); color: white; border-radius: 20px; padding: 2px 10px; font-weight: 700; }
+
+        /* GRID DE NICKS */
+        .nick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 9px; margin-bottom: 6px; }
+        .nick-card { background: white; border: 1px solid #dde1ec; border-radius: 4px; display: flex; align-items: center; padding: 0; overflow: hidden; transition: border-color .2s, box-shadow .2s; cursor: pointer; }
+        .nick-card:hover { border-color: var(--primary); box-shadow: 0 2px 10px rgba(59,89,152,.1); }
+        .nick-card:active { transform: scale(.98); }
+        .nick-text { flex: 1; padding: 13px 14px; font-size: 1.1rem; font-family: monospace; word-break: break-all; }
+        .nick-copy { padding: 0 14px; height: 100%; min-height: 48px; background: none; border: none; border-left: 1px solid #eee; color: #bbb; font-size: .85rem; cursor: pointer; transition: color .15s, background .15s; white-space: nowrap; }
+        .nick-card:hover .nick-copy { color: var(--primary); }
+        .nick-copy:hover { background: var(--primary) !important; color: white !important; }
+
+        /* EMPTY STATE */
+        .empty { text-align: center; padding: 50px 20px; color: #ccc; }
+        .empty i { font-size: 3rem; margin-bottom: 14px; display: block; }
+        .empty p { font-size: 1rem; }
+
+        /* SEO */
+        .seo-footer { background: white; border: 1px solid #ddd; padding: 28px 30px; border-radius: 4px; margin-top: 40px; line-height: 1.75; color: #555; }
+        .seo-footer h3 { color: var(--primary); border-left: 5px solid var(--primary); padding-left: 14px; margin-top: 0; }
+        .seo-footer h4 { color: #444; margin-top: 22px; }
+
+        /* TOAST */
+        #toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: #1a1a2e; color: white; padding: 11px 32px; border-radius: 40px; display: none; font-weight: bold; font-size: .92rem; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <div class="logo"><a href="index.html">NickFFinsanos</a></div>
+    <a href="simbolos.html" class="sidebar-item"><i class="fa-solid fa-gem" style="color:#00d2ff"></i> Fuente y símbolos</a>
+    <a href="combinar.html" class="sidebar-item active"><i class="fa-solid fa-link" style="color:#7f8c8d"></i> Combinar dos nombres</a>
+    <a href="apodo-simbolos.html" class="sidebar-item"><i class="fa-solid fa-star" style="color:#f1c40f"></i> Apodo a símbolos</a>
+    <a href="generador-texto.html" class="sidebar-item"><i class="fa-solid fa-file-lines" style="color:#95a5a6"></i> Generador de texto</a>
+    <div class="sidebar-cat">CATEGORÍAS</div>
+    <a href="por-simbolo.html" class="sidebar-item"><i class="fa-solid fa-magnifying-glass" style="color:#7f8c8d"></i> Por símbolo</a>
+    <a href="masculino.html" class="sidebar-item"><i class="fa-solid fa-mars" style="color:#f39c12"></i> Nombres masculinos</a>
+    <a href="femenino.html" class="sidebar-item"><i class="fa-solid fa-venus" style="color:#f1c40f"></i> Nombres femeninos</a>
+    <a href="contrasenas.html" class="sidebar-item"><i class="fa-solid fa-lock" style="color:#2d3436"></i> Generador de contraseñas</a>
+    <a href="dominios.html" class="sidebar-item"><i class="fa-solid fa-earth-americas" style="color:#00d2ff"></i> Nombres de dominio</a>
+    <div class="sidebar-cat">POPULARES</div>
+    <a href="freefire.html" class="sidebar-item"><i class="fa-solid fa-gamepad" style="color:#2d3436"></i> Free Fire</a>
+    <a href="pubg-cod.html" class="sidebar-item"><i class="fa-solid fa-gun" style="color:#27ae60"></i> PUBG / COD</a>
+    <a href="minecraft.html" class="sidebar-item"><i class="fa-solid fa-cube" style="color:#8e44ad"></i> Minecraft</a>
+</nav>
+
+<main>
+
+    <!-- HERO -->
+    <div class="hero-box">
+        <h1>Combinar <span>Dos Nombres</span></h1>
+        <p>Escribe dos nicks y genera todas las combinaciones posibles: intercalado de letras, fusión de mitades y versiones decoradas con símbolos. El preview se actualiza en tiempo real.</p>
+
+        <div class="inputs-row">
+            <div class="input-box">
+                <label>Nombre 1</label>
+                <input type="text" id="n1" placeholder="Ej: Dark" maxlength="20" autocomplete="off">
+            </div>
+            <div class="plus-icon">+</div>
+            <div class="input-box">
+                <label>Nombre 2</label>
+                <input type="text" id="n2" placeholder="Ej: Ninja" maxlength="20" autocomplete="off">
+            </div>
+        </div>
+        <div class="hint">Escribe los dos nombres — las combinaciones aparecen automáticamente ✦</div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filters">
+        <button class="filter-btn on" data-f="all"     onclick="setFilter(this,'all')">Todos</button>
+        <button class="filter-btn"    data-f="fusion"  onclick="setFilter(this,'fusion')">🔀 Fusión de mitades</button>
+        <button class="filter-btn"    data-f="interl"  onclick="setFilter(this,'interl')">🔤 Intercalado</button>
+        <button class="filter-btn"    data-f="symbols" onclick="setFilter(this,'symbols')">✨ Con símbolos</button>
+        <button class="filter-btn"    data-f="fonts"   onclick="setFilter(this,'fonts')">🔡 Con fuentes</button>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="empty-state" class="empty">
+        <i class="fa-solid fa-link"></i>
+        <p>Escribe dos nombres arriba para ver todas las combinaciones posibles</p>
+    </div>
+
+    <div id="all-results" style="display:none">
+
+        <!-- FUSIÓN DE MITADES -->
+        <div class="sec-title" id="sec-fusion" style="display:none">🔀 Fusión de mitades <span class="sec-badge" id="cnt-fusion">0</span></div>
+        <div class="nick-grid" id="grid-fusion"></div>
+
+        <!-- INTERCALADO -->
+        <div class="sec-title" id="sec-interl" style="display:none">🔤 Intercalado de letras <span class="sec-badge" id="cnt-interl">0</span></div>
+        <div class="nick-grid" id="grid-interl"></div>
+
+        <!-- CON SÍMBOLOS -->
+        <div class="sec-title" id="sec-symbols" style="display:none">✨ Con símbolos decorativos <span class="sec-badge" id="cnt-symbols">0</span></div>
+        <div class="nick-grid" id="grid-symbols"></div>
+
+        <!-- CON FUENTES -->
+        <div class="sec-title" id="sec-fonts" style="display:none">🔡 Con fuentes especiales <span class="sec-badge" id="cnt-fonts">0</span></div>
+        <div class="nick-grid" id="grid-fonts"></div>
+
+    </div>
+
+    <!-- SEO -->
+    <div class="seo-footer">
+        <h3>¿Para qué sirve combinar dos nombres en un nick?</h3>
+        <p>Combinar dos nombres es una de las técnicas más usadas para crear nicks únicos en Free Fire, PUBG y Minecraft. Puedes mezclar tu nombre real con el de un amigo, tu clan con tu apodo, o dos palabras que te identifiquen.</p>
+        <h4>Técnicas de combinación</h4>
+        <p><b>Fusión de mitades:</b> Toma la primera mitad de un nombre y la segunda del otro. <code>Dark + Ninja → DaNinja</code> o <code>Darka</code>. Produce nicks cortos y originales.<br>
+        <b>Intercalado:</b> Alterna letras de ambos nombres. <code>D-N-a-i-r-k-j-a</code>. El resultado suele ser impronunciable pero visualmente impactante.<br>
+        <b>Con símbolos:</b> Separa los dos nombres con un símbolo de poder como <code>⚔️</code>, <code>彡</code> o <code>✦</code> para crear nicks de clan o dúo.</p>
+        <h4>Tip para parejas o duos de clan</h4>
+        <p>Si quieres nicks coordinados para jugar en dúo, usa el mismo marco con los nombres intercambiados: <code>꧁ Dark✦Ninja ꧂</code> y <code>꧁ Ninja✦Dark ꧂</code>. Se verán como un equipo profesional.</p>
+    </div>
+
+</main>
+
+<div id="toast">✔️ Copiado</div>
+
+<script>
+/* ═══════════════════════════════════════
+   CONVERSORES DE FUENTE (simplificados)
+═══════════════════════════════════════ */
+const gothic  = {'a':'𝖆','b':'𝖇','c':'𝖈','d':'𝖉','e':'𝖊','f':'𝖋','g':'𝖌','h':'𝖍','i':'𝖎','j':'𝖏','k':'𝖐','l':'𝖑','m':'𝖒','n':'𝖓','o':'𝖔','p':'𝖕','q':'𝖖','r':'𝖗','s':'𝖘','t':'𝖙','u':'𝖚','v':'𝖛','w':'𝖜','x':'𝖝','y':'𝖞','z':'𝖟','A':'𝕬','B':'𝕭','C':'𝕮','D':'𝕯','E':'𝕰','F':'𝕱','G':'𝕲','H':'𝕳','I':'𝕴','J':'𝕵','K':'𝕶','L':'𝕷','M':'𝕸','N':'𝕹','O':'𝕺','P':'𝕻','Q':'𝕼','R':'𝕽','S':'𝕾','T':'𝕿','U':'𝖀','V':'𝖁','W':'𝖂','X':'𝖃','Y':'𝖄','Z':'𝖅'};
+const script  = {'a':'𝓪','b':'𝓫','c':'𝓬','d':'𝓭','e':'𝓮','f':'𝓯','g':'𝓰','h':'𝓱','i':'𝓲','j':'𝓳','k':'𝓴','l':'𝓵','m':'𝓶','n':'𝓷','o':'𝓸','p':'𝓹','q':'𝓺','r':'𝓻','s':'𝓼','t':'𝓽','u':'𝓾','v':'𝓿','w':'𝔀','x':'𝔁','y':'𝔂','z':'𝔃','A':'𝓐','B':'𝓑','C':'𝓒','D':'𝓓','E':'𝓔','F':'𝓕','G':'𝓖','H':'𝓗','I':'𝓘','J':'𝓙','K':'𝓚','L':'𝓛','M':'𝓜','N':'𝓝','O':'𝓞','P':'𝓟','Q':'𝓠','R':'𝓡','S':'𝓢','T':'𝓣','U':'𝓤','V':'𝓥','W':'𝓦','X':'𝓧','Y':'𝓨','Z':'𝓩'};
+const bold    = {'a':'𝗮','b':'𝗯','c':'𝗰','d':'𝗱','e':'𝗲','f':'𝗳','g':'𝗴','h':'𝗵','i':'𝗶','j':'𝗷','k':'𝗸','l':'𝗹','m':'𝗺','n':'𝗻','o':'𝗼','p':'𝗽','q':'𝗾','r':'𝗿','s':'𝘀','t':'𝘁','u':'𝘂','v':'𝘃','w':'𝘄','x':'𝘅','y':'𝘆','z':'𝘇','A':'𝗔','B':'𝗕','C':'𝗖','D':'𝗗','E':'𝗘','F':'𝗙','G':'𝗚','H':'𝗛','I':'𝗜','J':'𝗝','K':'𝗞','L':'𝗟','M':'𝗠','N':'𝗡','O':'𝗢','P':'𝗣','Q':'𝗤','R':'𝗥','S':'𝗦','T':'𝗧','U':'𝗨','V':'𝗩','W':'𝗪','X':'𝗫','Y':'𝗬','Z':'𝗭'};
+const cherokee={'a':'Ꭺ','b':'Ᏸ','c':'Ꮯ','d':'Ꭰ','e':'Ꮛ','f':'Ꮀ','g':'Ꮆ','h':'Ꮋ','i':'Ꭵ','j':'Ꮰ','k':'Ꮶ','l':'Ꮮ','m':'Ꮇ','n':'Ꮑ','o':'Ꭷ','p':'Ꭾ','q':'Ꭴ','r':'Ꮢ','s':'Ꮥ','t':'Ꮦ','u':'Ꮼ','v':'Ꮙ','w':'Ꮃ','x':'Ꮖ','y':'Ꮍ','z':'Ꮓ','A':'Ꭺ','B':'Ᏸ','C':'Ꮯ','D':'Ꭰ','E':'Ꮛ','F':'Ꮀ','G':'Ꮆ','H':'Ꮋ','I':'Ꭵ','J':'Ꮰ','K':'Ꮶ','L':'Ꮮ','M':'Ꮇ','N':'Ꮑ','O':'Ꭷ','P':'Ꭾ','Q':'Ꭴ','R':'Ꮢ','S':'Ꮥ','T':'Ꮦ','U':'Ꮼ','V':'Ꮙ','W':'Ꮃ','X':'Ꮖ','Y':'Ꮍ','Z':'Ꮓ'};
+
+function applyMap(s, map) { return s.split('').map(c => map[c] || c).join(''); }
+
+/* ═══════════════════════════════════════
+   GENERADORES
+═══════════════════════════════════════ */
+
+// ── FUSIÓN DE MITADES ──────────────────
+function genFusion(a, b) {
+    const results = new Set();
+    const al = a.length, bl = b.length;
+
+    // Todos los puntos de corte posibles para A
+    for (let ia = 1; ia < al; ia++) {
+        // Todos los puntos de corte posibles para B
+        for (let ib = 1; ib < bl; ib++) {
+            const aL = a.slice(0, ia), aR = a.slice(ia);
+            const bL = b.slice(0, ib), bR = b.slice(ib);
+
+            results.add(aL + bR);           // primera mitad A + segunda mitad B
+            results.add(bL + aR);           // primera mitad B + segunda mitad A
+            results.add(aL + bL);           // ambas primeras mitades
+            results.add(aR + bR);           // ambas segundas mitades
+        }
+    }
+
+    // Variaciones de capitalización
+    const base = [...results];
+    base.forEach(r => {
+        results.add(r.charAt(0).toUpperCase() + r.slice(1).toLowerCase());
+        results.add(r.toUpperCase());
+        results.add(r.toLowerCase());
+    });
+
+    // Eliminar duplicados triviales y nombres originales
+    return [...results].filter(r => r.length >= 3 && r !== a && r !== b && r.toLowerCase() !== a.toLowerCase() && r.toLowerCase() !== b.toLowerCase());
+}
+
+// ── INTERCALADO ───────────────────────
+function genInterleaved(a, b) {
+    const results = new Set();
+
+    // Intercalado clásico A-B
+    let r1 = '', r2 = '';
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+        if (i < a.length) r1 += a[i];
+        if (i < b.length) r1 += b[i];
+        if (i < b.length) r2 += b[i];
+        if (i < a.length) r2 += a[i];
+    }
+    results.add(r1);
+    results.add(r2);
+
+    // Intercalado saltando 2
+    let r3 = '', r4 = '';
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+        if (i < a.length) r3 += a[i];
+        if (i < a.length) r3 += (a[i+1] || '');
+        if (i < b.length) r3 += b[i];
+        i++;
+    }
+    results.add(r3.slice(0, 20));
+
+    // Intercalado inverso
+    const ar = a.split('').reverse().join('');
+    const br = b.split('').reverse().join('');
+    let r5 = '';
+    for (let i = 0; i < Math.max(ar.length, br.length); i++) {
+        if (i < ar.length) r5 += ar[i];
+        if (i < br.length) r5 += br[i];
+    }
+    results.add(r5);
+    results.add(r5.split('').reverse().join(''));
+
+    // Cada 2 letras de A + cada 2 de B
+    let r6 = '';
+    for (let i = 0; i < a.length; i += 2) r6 += a.slice(i, i+2);
+    for (let i = 0; i < b.length; i += 2) r6 += b.slice(i, i+2);
+    results.add(r6);
+
+    // Vocales de A + consonantes de B
+    const vow = 'aeiouáéíóúAEIOUÁÉÍÓÚ';
+    const aVow  = a.split('').filter(c => vow.includes(c)).join('');
+    const bCons = b.split('').filter(c => !vow.includes(c)).join('');
+    const aCons = a.split('').filter(c => !vow.includes(c)).join('');
+    const bVow  = b.split('').filter(c => vow.includes(c)).join('');
+    if (aVow + bCons) results.add(aVow + bCons);
+    if (aCons + bVow) results.add(aCons + bVow);
+    if (bVow + aCons) results.add(bVow + aCons);
+    if (bCons + aVow) results.add(bCons + aVow);
+
+    // Zigzag silábico (grupos de 1,2,3 letras alternando)
+    [1,2,3].forEach(step => {
+        let z = '';
+        let ia = 0, ib = 0, turn = true;
+        while (ia < a.length || ib < b.length) {
+            if (turn && ia < a.length)      { z += a.slice(ia, ia+step); ia += step; }
+            else if (!turn && ib < b.length){ z += b.slice(ib, ib+step); ib += step; }
+            else if (ia < a.length)         { z += a.slice(ia, ia+step); ia += step; }
+            else                            { z += b.slice(ib, ib+step); ib += step; }
+            turn = !turn;
+        }
+        results.add(z);
+        // también empezando por B
+        let z2 = '';
+        ia = 0; ib = 0; turn = false;
+        while (ia < a.length || ib < b.length) {
+            if (turn && ia < a.length)      { z2 += a.slice(ia, ia+step); ia += step; }
+            else if (!turn && ib < b.length){ z2 += b.slice(ib, ib+step); ib += step; }
+            else if (ia < a.length)         { z2 += a.slice(ia, ia+step); ia += step; }
+            else                            { z2 += b.slice(ib, ib+step); ib += step; }
+            turn = !turn;
+        }
+        results.add(z2);
+    });
+
+    return [...results].filter(r => r.length >= 3 && r !== a && r !== b);
+}
+
+// ── CON SÍMBOLOS ──────────────────────
+function genSymbols(a, b) {
+    const seps = [
+        '✦','彡','乄','•','·','|','/','-','_','×','★','☆','✞','♛','⚔️','💀','🔥','⚡','❄️',
+        '༒','☬','꧁꧂','✿','◆','▸','⊕','∞','≈','†','‡','✝','⛧','༄','꩜'
+    ];
+    const frames = [
+        n => `꧁༺ ${n} ༻꧂`,
+        n => `☆彡 ${n} 彡☆`,
+        n => `꧁✞ ${n} ✞꧂`,
+        n => `꧁༒☬ ${n} ☬༒꧂`,
+        n => `★ ${n} ★`,
+        n => `✦ ${n} ✦`,
+        n => `♛ ${n} ♛`,
+        n => `『 ${n} 』`,
+        n => `【 ${n} 】`,
+        n => `《 ${n} 》`,
+        n => `꧁⚔️ ${n} ⚔️꧂`,
+        n => `🔥 ${n} 🔥`,
+        n => `꧁💀 ${n} 💀꧂`,
+        n => `༄ ${n} 彡`,
+        n => `◆ ${n} ◆`,
+        n => `⌈ ${n} ⌋`,
+        n => `░▒▓ ${n} ▓▒░`,
+        n => `꩜ ${n} ꩜`,
+    ];
+    const results = new Set();
+
+    // Separador entre los dos nombres
+    seps.forEach(sep => {
+        results.add(`${a}${sep}${b}`);
+        results.add(`${b}${sep}${a}`);
+        results.add(`${a} ${sep} ${b}`);
+        results.add(`${b} ${sep} ${a}`);
+    });
+
+    // Marco completo con separador
+    const combinados = [
+        `${a}${b}`, `${b}${a}`,
+        `${a}•${b}`, `${b}•${a}`,
+        `${a}彡${b}`, `${a}✦${b}`,
+        `${a}x${b}`, `${a}乄${b}`,
+        `${a}_${b}`, `${a}-${b}`,
+    ];
+    combinados.forEach(nick => {
+        frames.forEach(f => results.add(f(nick)));
+    });
+
+    // Versión con fuente
+    const fusionSimple = a.slice(0, Math.ceil(a.length/2)) + b.slice(Math.floor(b.length/2));
+    frames.forEach(f => results.add(f(fusionSimple)));
+
+    return [...results].filter(r => r.length >= 3);
+}
+
+// ── CON FUENTES ───────────────────────
+function genFonts(a, b) {
+    const results = [];
+    const combos = [
+        `${a}${b}`, `${b}${a}`,
+        `${a} ${b}`, `${b} ${a}`,
+        a.slice(0, Math.ceil(a.length/2)) + b.slice(Math.floor(b.length/2)),
+        b.slice(0, Math.ceil(b.length/2)) + a.slice(Math.floor(a.length/2)),
+    ];
+
+    const fontSets = [
+        { name: 'Gótico',   fn: s => applyMap(s, gothic)   },
+        { name: 'Script',   fn: s => applyMap(s, script)   },
+        { name: 'Negrita',  fn: s => applyMap(s, bold)     },
+        { name: 'Cherokee', fn: s => applyMap(s, cherokee) },
+        { name: 'Ancho',    fn: s => s.split('').map(c => { const code = c.charCodeAt(0); return (code>=33&&code<=126) ? String.fromCodePoint(code+65248) : c; }).join('') },
+        { name: 'Antiguo',  fn: s => applyMap(s, {'a':'α','b':'в','c':'¢','d':'∂','e':'є','f':'ƒ','g':'ﻭ','h':'н','i':'ι','j':'נ','k':'к','l':'ℓ','m':'м','n':'η','o':'σ','p':'ρ','q':'q','r':'я','s':'ѕ','t':'т','u':'υ','v':'ν','w':'ω','x':'χ','y':'у','z':'z','A':'Λ','B':'Β','C':'Ç','D':'Ð','E':'Ε','F':'Ƒ','G':'Ǥ','H':'Η','I':'Ι','J':'נ','K':'Κ','L':'Ĺ','M':'Μ','N':'Ν','O':'Θ','P':'Ρ','Q':'Q','R':'Ŗ','S':'Ş','T':'Τ','U':'Ữ','V':'V','W':'Ω','X':'Χ','Y':'Ψ','Z':'Ζ'}) },
+    ];
+
+    const frames = [
+        n => n,
+        n => `꧁༺ ${n} ༻꧂`,
+        n => `★彡 ${n} 彡★`,
+        n => `꧁✞ ${n} ✞꧂`,
+        n => `✦ ${n} ✦`,
+        n => `♛ ${n} ♛`,
+    ];
+
+    combos.forEach(combo => {
+        fontSets.forEach(fs => {
+            const converted = fs.fn(combo);
+            frames.forEach(f => results.push(f(converted)));
+        });
+    });
+
+    return [...new Set(results)].filter(r => r.length >= 3);
+}
+
+/* ═══════════════════════════════════════
+   RENDER
+═══════════════════════════════════════ */
+let currentFilter = 'all';
+
+function setFilter(btn, f) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    currentFilter = f;
+    updateVisibility();
+}
+
+function updateVisibility() {
+    const sections = ['fusion','interl','symbols','fonts'];
+    sections.forEach(s => {
+        const sec   = document.getElementById('sec-' + s);
+        const grid  = document.getElementById('grid-' + s);
+        const show  = currentFilter === 'all' || currentFilter === s;
+        if (sec)  sec.style.display  = show && grid.children.length ? '' : 'none';
+        if (grid) grid.style.display = show ? '' : 'none';
+    });
+}
+
+function buildGrid(gridId, items) {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = '';
+    items.forEach(nick => {
+        const card = document.createElement('div');
+        card.className = 'nick-card';
+        const safe = nick.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        card.innerHTML = `<div class="nick-text">${safe}</div><button class="nick-copy" onclick="event.stopPropagation();copy('${nick.replace(/'/g,"\\'")}')">⎘ Copiar</button>`;
+        card.addEventListener('click', () => copy(nick));
+        grid.appendChild(card);
+    });
+    return items.length;
+}
+
+function render() {
+    const a = document.getElementById('n1').value.trim();
+    const b = document.getElementById('n2').value.trim();
+    const empty  = document.getElementById('empty-state');
+    const allRes = document.getElementById('all-results');
+
+    if (!a || !b) {
+        empty.style.display  = 'block';
+        allRes.style.display = 'none';
+        return;
+    }
+
+    empty.style.display  = 'none';
+    allRes.style.display = 'block';
+
+    const fFusion  = genFusion(a, b);
+    const fInterl  = genInterleaved(a, b);
+    const fSymbols = genSymbols(a, b);
+    const fFonts   = genFonts(a, b);
+
+    const cF = buildGrid('grid-fusion',  fFusion);
+    const cI = buildGrid('grid-interl',  fInterl);
+    const cS = buildGrid('grid-symbols', fSymbols);
+    const cN = buildGrid('grid-fonts',   fFonts);
+
+    document.getElementById('cnt-fusion').textContent  = cF;
+    document.getElementById('cnt-interl').textContent  = cI;
+    document.getElementById('cnt-symbols').textContent = cS;
+    document.getElementById('cnt-fonts').textContent   = cN;
+
+    // Mostrar/ocultar headers según haya contenido
+    document.getElementById('sec-fusion').style.display  = cF ? '' : 'none';
+    document.getElementById('sec-interl').style.display  = cI ? '' : 'none';
+    document.getElementById('sec-symbols').style.display = cS ? '' : 'none';
+    document.getElementById('sec-fonts').style.display   = cN ? '' : 'none';
+
+    updateVisibility();
+}
+
+/* ═══════════════════════════════════════
+   UTILS
+═══════════════════════════════════════ */
+function copy(text) {
+    navigator.clipboard.writeText(text);
+    showToast('✔️ Copiado: ' + text.slice(0,24) + (text.length>24?'…':''));
+}
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(t._tid);
+    t._tid = setTimeout(() => t.style.display = 'none', 1800);
+}
+
+// Listeners en tiempo real
+document.getElementById('n1').addEventListener('input', render);
+document.getElementById('n2').addEventListener('input', render);
+</script>
+</body>
+</html>
