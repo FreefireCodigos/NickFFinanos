@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apodo a Símbolos | NickFFinsanos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b5998;
+            --bg-body: #f2f4f7;
+            --text-blue: #4a69bd;
+            --success: #2ecc71;
+            --sidebar-w: 270px;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-body); margin: 0; display: flex; color: #333; }
+
+        /* ── SIDEBAR ── */
+        nav.sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid #ddd; height: 100vh; position: sticky; top: 0; overflow-y: auto; flex-shrink: 0; }
+        .logo { background: var(--primary); text-align: center; border-bottom: 3px solid rgba(0,0,0,0.1); }
+        .logo a { display: block; padding: 22px; color: white; font-weight: 900; font-size: 1.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+        .sidebar-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; color: #555; text-decoration: none; border-bottom: 1px solid #f8f8f8; font-size: 0.95rem; }
+        .sidebar-item:hover, .sidebar-item.active { background: #f1f4f9; color: var(--primary); }
+        .sidebar-item i { width: 20px; font-size: 1.1rem; text-align: center; }
+        .sidebar-cat { background: #f0f4f8; padding: 12px 20px; font-size: 0.8rem; font-weight: bold; color: #7f8c8d; text-transform: uppercase; border-top: 1px solid #eee; }
+
+        /* ── MAIN ── */
+        main { flex: 1; padding: 25px; max-width: 1000px; margin: 0 auto; }
+
+        /* HERO */
+        .hero-box { background: white; padding: 35px 40px; border-radius: 4px; border: 1px solid #ddd; text-align: center; margin-bottom: 20px; }
+        .hero-box h1 { font-size: 2rem; margin: 0 0 8px; color: #222; }
+        .hero-box h1 span { color: var(--primary); }
+        .hero-box p { color: #666; margin: 0 0 22px; }
+        .input-wrap { display: flex; max-width: 620px; margin: 0 auto 16px; border: 2px solid #ddd; border-radius: 4px; overflow: hidden; transition: border-color .2s; }
+        .input-wrap:focus-within { border-color: var(--primary); }
+        .input-wrap input { flex: 1; padding: 15px 18px; border: none; outline: none; font-size: 1.15rem; }
+        .input-wrap button { background: #f0f4f8; color: #888; border: none; padding: 0 20px; cursor: pointer; font-size: .9rem; border-left: 1px solid #ddd; transition: .15s; }
+        .input-wrap button:hover { background: #e0e6f0; color: #555; }
+
+        /* INTENSIDAD */
+        .intensity-bar { display: flex; justify-content: center; gap: 0; max-width: 360px; margin: 0 auto; border: 2px solid #dde1ec; border-radius: 4px; overflow: hidden; }
+        .int-btn { flex: 1; padding: 9px 0; background: white; border: none; font-size: .85rem; font-weight: 700; color: #7f8c8d; cursor: pointer; transition: .15s; border-right: 1px solid #dde1ec; }
+        .int-btn:last-child { border-right: none; }
+        .int-btn:hover { background: #f0f4f8; }
+        .int-btn.on { background: var(--primary); color: white; }
+        .int-label { font-size: .78rem; color: #aaa; text-align: center; margin-top: 6px; margin-bottom: 18px; }
+
+        /* SECCIÓN */
+        .sec-title { font-size: 1rem; font-weight: 700; color: #444; margin: 22px 0 10px; display: flex; align-items: center; gap: 8px; }
+        .sec-title::after { content:''; flex:1; height:1px; background:#e0e4ed; }
+        .sec-badge { font-size: .7rem; background: var(--primary); color: white; border-radius: 20px; padding: 2px 10px; }
+
+        /* GRID */
+        .nick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 9px; margin-bottom: 6px; }
+        .nick-card { background: white; border: 1px solid #dde1ec; border-radius: 4px; display: flex; align-items: stretch; overflow: hidden; transition: border-color .2s, box-shadow .2s; cursor: pointer; }
+        .nick-card:hover { border-color: var(--primary); box-shadow: 0 2px 10px rgba(59,89,152,.1); }
+        .nick-card:active { transform: scale(.98); }
+        .nick-text { flex: 1; padding: 13px 14px; font-size: 1.1rem; font-family: monospace; word-break: break-all; line-height: 1.4; }
+        .nick-style { font-size: .68rem; color: #bbb; display: block; font-family: 'Segoe UI', sans-serif; margin-top: 3px; text-transform: uppercase; letter-spacing: .5px; }
+        .nick-copy { padding: 0 14px; background: none; border: none; border-left: 1px solid #eee; color: #bbb; font-size: .85rem; cursor: pointer; transition: color .15s, background .15s; white-space: nowrap; min-width: 70px; }
+        .nick-card:hover .nick-copy { color: var(--primary); }
+        .nick-copy:hover { background: var(--primary) !important; color: white !important; }
+
+        /* EMPTY */
+        .empty { text-align: center; padding: 50px 20px; color: #ccc; }
+        .empty i { font-size: 3rem; margin-bottom: 14px; display: block; }
+
+        /* TABLA SUSTITUCIONES */
+        .map-table-wrap { background: white; border: 1px solid #dde1ec; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
+        .map-table-head { background: #f4f6fb; padding: 10px 18px; font-size: .82rem; font-weight: 700; color: #555; text-transform: uppercase; border-bottom: 1px solid #e8eaf2; }
+        .map-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+        .map-table td { padding: 7px 12px; border-bottom: 1px solid #f5f5f5; }
+        .map-table tr:last-child td { border-bottom: none; }
+        .map-table .orig { font-weight: 700; color: var(--primary); width: 40px; }
+        .map-table .syms { display: flex; flex-wrap: wrap; gap: 6px; }
+        .map-table .sym-tag { background: #f7f9fc; border: 1px solid #e0e4ed; border-radius: 3px; padding: 2px 8px; font-size: 1rem; cursor: pointer; transition: .12s; }
+        .map-table .sym-tag:hover { background: var(--primary); color: white; }
+
+        /* SEO */
+        .seo-footer { background: white; border: 1px solid #ddd; padding: 28px 30px; border-radius: 4px; margin-top: 40px; line-height: 1.75; color: #555; }
+        .seo-footer h3 { color: var(--primary); border-left: 5px solid var(--primary); padding-left: 14px; margin-top: 0; }
+        .seo-footer h4 { color: #444; margin-top: 22px; }
+
+        /* TOAST */
+        #toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); background: #1a1a2e; color: white; padding: 11px 32px; border-radius: 40px; display: none; font-weight: bold; font-size: .92rem; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,.25); }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <div class="logo"><a href="index.html">NickFFinsanos</a></div>
+    <a href="simbolos.html"       class="sidebar-item"><i class="fa-solid fa-gem"        style="color:#00d2ff"></i> Fuente y símbolos</a>
+    <a href="combinar.html"       class="sidebar-item"><i class="fa-solid fa-link"        style="color:#7f8c8d"></i> Combinar dos nombres</a>
+    <a href="apodo-simbolos.html" class="sidebar-item active"><i class="fa-solid fa-star" style="color:#f1c40f"></i> Apodo a símbolos</a>
+    <a href="generador-texto.html" class="sidebar-item"><i class="fa-solid fa-file-lines" style="color:#95a5a6"></i> Generador de texto</a>
+    <div class="sidebar-cat">CATEGORÍAS</div>
+    <a href="por-simbolo.html"    class="sidebar-item"><i class="fa-solid fa-magnifying-glass" style="color:#7f8c8d"></i> Por símbolo</a>
+    <a href="masculino.html"      class="sidebar-item"><i class="fa-solid fa-mars"        style="color:#f39c12"></i> Nombres masculinos</a>
+    <a href="femenino.html"       class="sidebar-item"><i class="fa-solid fa-venus"       style="color:#f1c40f"></i> Nombres femeninos</a>
+    <a href="contrasenas.html"    class="sidebar-item"><i class="fa-solid fa-lock"        style="color:#2d3436"></i> Generador de contraseñas</a>
+    <a href="dominios.html"       class="sidebar-item"><i class="fa-solid fa-earth-americas" style="color:#00d2ff"></i> Nombres de dominio</a>
+    <div class="sidebar-cat">POPULARES</div>
+    <a href="freefire.html"       class="sidebar-item"><i class="fa-solid fa-gamepad"     style="color:#2d3436"></i> Free Fire</a>
+    <a href="pubg-cod.html"       class="sidebar-item"><i class="fa-solid fa-gun"         style="color:#27ae60"></i> PUBG / COD</a>
+    <a href="minecraft.html"      class="sidebar-item"><i class="fa-solid fa-cube"        style="color:#8e44ad"></i> Minecraft</a>
+</nav>
+
+<main>
+
+    <!-- HERO -->
+    <div class="hero-box">
+        <h1>Apodo <span>a Símbolos</span></h1>
+        <p>Convierte cada letra de tu apodo en símbolos matemáticos, runas o emojis — y decóralo con marcos automáticos. Preview en tiempo real.</p>
+        <div class="input-wrap">
+            <input type="text" id="nickInput" placeholder="Escribe tu apodo…" maxlength="25" autocomplete="off">
+            <button onclick="clearInput()">✕</button>
+        </div>
+
+        <!-- INTENSIDAD -->
+        <div class="intensity-bar">
+            <button class="int-btn on" data-i="1" onclick="setIntensity(this,1)">🟢 Poco</button>
+            <button class="int-btn"    data-i="2" onclick="setIntensity(this,2)">🟡 Medio</button>
+            <button class="int-btn"    data-i="3" onclick="setIntensity(this,3)">🔴 Máximo</button>
+        </div>
+        <div class="int-label" id="int-desc">Solo vocales convertidas • Marco simple</div>
+    </div>
+
+    <!-- EMPTY -->
+    <div id="empty-state" class="empty">
+        <i class="fa-solid fa-star"></i>
+        <p>Escribe tu apodo arriba para ver todas las conversiones</p>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div id="all-results" style="display:none">
+
+        <div class="sec-title">⚗️ Matemáticos / Moneda <span class="sec-badge" id="cnt-math">0</span></div>
+        <div class="nick-grid" id="grid-math"></div>
+
+        <div class="sec-title">ᚱ Runas y caracteres raros <span class="sec-badge" id="cnt-rune">0</span></div>
+        <div class="nick-grid" id="grid-rune"></div>
+
+        <div class="sec-title">🔥 Emojis e iconos <span class="sec-badge" id="cnt-emoji">0</span></div>
+        <div class="nick-grid" id="grid-emoji"></div>
+
+        <div class="sec-title">🖼️ Combinados con marcos <span class="sec-badge" id="cnt-frame">0</span></div>
+        <div class="nick-grid" id="grid-frame"></div>
+
+    </div>
+
+    <!-- TABLA DE SUSTITUCIONES -->
+    <div class="sec-title" style="margin-top:30px">📋 Tabla de sustituciones — haz clic en un símbolo para copiarlo</div>
+    <div class="map-table-wrap">
+        <div class="map-table-head">Letra → símbolos disponibles</div>
+        <table class="map-table" id="mapTable"></table>
+    </div>
+
+    <!-- SEO -->
+    <div class="seo-footer">
+        <h3>¿Cómo funciona la conversión de letras a símbolos?</h3>
+        <p>Cada letra del alfabeto tiene múltiples símbolos Unicode que se le parecen visualmente. Esto se conoce como <b>leet speak</b> o sustitución homoglífica. Por ejemplo, la <b>A</b> puede convertirse en <code>Λ</code>, <code>∆</code> o <code>卂</code> según la intensidad elegida.</p>
+        <h4>Niveles de intensidad</h4>
+        <p><b>🟢 Poco:</b> Solo las vocales se convierten. El nombre sigue siendo legible pero tiene un toque especial. Ideal para perfiles públicos.<br>
+        <b>🟡 Medio:</b> Vocales y consonantes clave se convierten. Equilibrio entre estética y legibilidad. El más usado en Free Fire.<br>
+        <b>🔴 Máximo:</b> Todas las letras se convierten al símbolo más radical disponible. Aspecto muy impactante pero difícil de leer. Perfecto para nicks de clan o torneo.</p>
+        <h4>Estilos de sustitución</h4>
+        <p><b>Matemáticos / Moneda:</b> Usan símbolos como <code>₦ Ї ℑ ₳ ℜ Ω</code> — dan un aspecto de poder y misterio.<br>
+        <b>Runas:</b> Caracteres nórdicos, tibetanos y cherokee como <code>ᚱ ᚨ ᚲ ᛟ</code> — aspecto épico medieval.<br>
+        <b>Emojis / Iconos:</b> Sustituciones con emojis de letras encerradas en cuadrado o círculo — aspecto moderno y llamativo.</p>
+    </div>
+
+</main>
+
+<div id="toast">✔️ Copiado</div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   MAPAS DE SUSTITUCIÓN POR ESTILO
+   Cada letra tiene: [poco, medio, máximo]
+═══════════════════════════════════════════════════ */
+const MATH = {
+  a:['α','₳','卂'], b:['b','в','ℬ'],  c:['¢','ℭ','ꉔ'],  d:['d','∂','ꀸ'],
+  e:['є','€','ꍟ'],  f:['f','ƒ','ꎇ'],  g:['g','ﻭ','ꁅ'],  h:['h','н','ꃅ'],
+  i:['ι','ℐ','ꀤ'],  j:['j','נ','ꀭ'],  k:['k','к','ꀗ'],  l:['l','ℓ','ꒉ'],
+  m:['m','м','ꂵ'],  n:['η','ℕ','ꁹ'],  o:['σ','Θ','ꄲ'],  p:['p','ρ','ꉣ'],
+  q:['q','Q','ꁃ'],  r:['r','я','ꋪ'],  s:['ѕ','§','ꌗ'],  t:['t','т','꓄'],
+  u:['υ','Ữ','ꀎ'],  v:['v','ν','ꃴ'],  w:['w','ω','ꅏ'],  x:['x','χ','ꊼ'],
+  y:['y','у','ꌩ'],  z:['z','ζ','ꁴ'],
+  A:['Λ','₳','卂'], B:['B','Β','ℬ'],  C:['Ç','ℭ','ꉔ'],  D:['D','Ð','ꀸ'],
+  E:['Ε','€','ꍟ'],  F:['F','Ƒ','ꎇ'],  G:['G','Ǥ','ꁅ'],  H:['H','Η','ꃅ'],
+  I:['Ι','ℐ','ꀤ'],  J:['J','נ','ꀭ'],  K:['K','Κ','ꀗ'],  L:['L','Ĺ','ꒉ'],
+  M:['M','Μ','ꂵ'],  N:['N','ℕ','ꁹ'],  O:['Θ','Ø','ꄲ'],  P:['P','Ρ','ꉣ'],
+  Q:['Q','Ω','ꁃ'],  R:['R','ℜ','ꋪ'],  S:['S','Ş','ꌗ'],  T:['T','Τ','꓄'],
+  U:['U','Ữ','ꀎ'],  V:['V','Λ','ꃴ'],  W:['W','Ω','ꅏ'],  X:['X','Χ','ꊼ'],
+  Y:['Y','Ψ','ꌩ'],  Z:['Z','Ζ','ꁴ'],
+};
+
+const RUNE = {
+  a:['a','ᚨ','ᚨ'],  b:['b','ᛒ','ᛒ'],  c:['c','ᚲ','ᚲ'],  d:['d','ᛞ','ᛞ'],
+  e:['e','ᛖ','ᛖ'],  f:['f','ᚠ','ᚠ'],  g:['g','ᚷ','ᚷ'],  h:['h','ᚺ','ᚺ'],
+  i:['i','ᛁ','ᛁ'],  j:['j','ᛃ','ᛃ'],  k:['k','ᚲ','ᚲ'],  l:['l','ᛚ','ᛚ'],
+  m:['m','ᛗ','ᛗ'],  n:['n','ᚾ','ᚾ'],  o:['o','ᛟ','ᛟ'],  p:['p','ᛈ','ᛈ'],
+  q:['q','q','ᛩ'],  r:['r','ᚱ','ᚱ'],  s:['s','ᛊ','ᛊ'],  t:['t','ᛏ','ᛏ'],
+  u:['u','ᚢ','ᚢ'],  v:['v','ᚢ','ᚡ'],  w:['w','ᚹ','ᚹ'],  x:['x','x','ᚷᛊ'],
+  y:['y','ᛃ','ᛃ'],  z:['z','z','ᛉ'],
+  A:['A','ᚨ','ᚨ'],  B:['B','ᛒ','ᛒ'],  C:['C','ᚲ','ᚲ'],  D:['D','ᛞ','ᛞ'],
+  E:['E','ᛖ','ᛖ'],  F:['F','ᚠ','ᚠ'],  G:['G','ᚷ','ᚷ'],  H:['H','ᚺ','ᚺ'],
+  I:['I','ᛁ','ᛁ'],  J:['J','ᛃ','ᛃ'],  K:['K','ᚲ','ᚲ'],  L:['L','ᛚ','ᛚ'],
+  M:['M','ᛗ','ᛗ'],  N:['N','ᚾ','ᚾ'],  O:['O','ᛟ','ᛟ'],  P:['P','ᛈ','ᛈ'],
+  Q:['Q','Q','ᛩ'],  R:['R','ᚱ','ᚱ'],  S:['S','ᛊ','ᛊ'],  T:['T','ᛏ','ᛏ'],
+  U:['U','ᚢ','ᚢ'],  V:['V','ᚢ','ᚡ'],  W:['W','ᚹ','ᚹ'],  X:['X','X','ᚷᛊ'],
+  Y:['Y','ᛃ','ᛃ'],  Z:['Z','Z','ᛉ'],
+};
+
+const EMOJI = {
+  a:['a','🅐','🅐'],  b:['b','🅑','🅑'],  c:['c','🅒','🅒'],  d:['d','🅓','🅓'],
+  e:['e','🅔','🅔'],  f:['f','🅕','🅕'],  g:['g','🅖','🅖'],  h:['h','🅗','🅗'],
+  i:['i','🅘','🅘'],  j:['j','🅙','🅙'],  k:['k','🅚','🅚'],  l:['l','🅛','🅛'],
+  m:['m','🅜','🅜'],  n:['n','🅝','🅝'],  o:['o','🅞','🅞'],  p:['p','🅟','🅟'],
+  q:['q','🅠','🅠'],  r:['r','🅡','🅡'],  s:['s','🅢','🅢'],  t:['t','🅣','🅣'],
+  u:['u','🅤','🅤'],  v:['v','🅥','🅥'],  w:['w','🅦','🅦'],  x:['x','🅧','🅧'],
+  y:['y','🅨','🅨'],  z:['z','🅩','🅩'],
+  A:['A','🅐','🅐'],  B:['B','🅑','🅑'],  C:['C','🅒','🅒'],  D:['D','🅓','🅓'],
+  E:['E','🅔','🅔'],  F:['F','🅕','🅕'],  G:['G','🅖','🅖'],  H:['H','🅗','🅗'],
+  I:['I','🅘','🅘'],  J:['J','🅙','🅙'],  K:['K','🅚','🅚'],  L:['L','🅛','🅛'],
+  M:['M','🅜','🅜'],  N:['N','🅝','🅝'],  O:['O','🅞','🅞'],  P:['P','🅟','🅟'],
+  Q:['Q','🅠','🅠'],  R:['R','🅡','🅡'],  S:['S','🅢','🅢'],  T:['T','🅣','🅣'],
+  U:['U','🅤','🅤'],  V:['V','🅥','🅥'],  W:['W','🅦','🅦'],  X:['X','🅧','🅧'],
+  Y:['Y','🅨','🅨'],  Z:['Z','🅩','🅩'],
+};
+
+// vocales para modo "poco"
+const VOWELS = new Set(['a','e','i','o','u','A','E','I','O','U']);
+
+/* ═══════════════════════════════════════════════════
+   MARCOS
+═══════════════════════════════════════════════════ */
+const FRAMES_SIMPLE = [
+  n => `★ ${n} ★`,
+  n => `✦ ${n} ✦`,
+  n => `• ${n} •`,
+  n => `彡 ${n} 彡`,
+];
+const FRAMES_MED = [
+  n => `꧁༺ ${n} ༻꧂`,
+  n => `☆彡 ${n} 彡☆`,
+  n => `♛ ${n} ♛`,
+  n => `『 ${n} 』`,
+  n => `【 ${n} 】`,
+  n => `◆ ${n} ◆`,
+  n => `✿ ${n} ✿`,
+];
+const FRAMES_MAX = [
+  n => `꧁༒☬ ${n} ☬༒꧂`,
+  n => `꧁✞ ${n} ✞꧂`,
+  n => `꧁⚔️ ${n} ⚔️꧂`,
+  n => `꧁💀 ${n} 💀꧂`,
+  n => `░▒▓ ${n} ▓▒░`,
+  n => `༄᭄ ${n} ᭄༄`,
+  n => `꩜ ${n} ꩜`,
+  n => `꧁ᴳᵒᵈ• ${n} •ᴳᵒᵈ꧂`,
+];
+
+/* ═══════════════════════════════════════════════════
+   ESTADO
+═══════════════════════════════════════════════════ */
+let intensity = 1; // 1=poco, 2=medio, 3=máximo
+
+const INT_DESCS = {
+  1: 'Solo vocales convertidas • Marco simple',
+  2: 'Vocales + consonantes clave • Marcos medianos',
+  3: 'Todas las letras al máximo • Marcos épicos completos',
+};
+
+function setIntensity(btn, val) {
+  document.querySelectorAll('.int-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  intensity = val;
+  document.getElementById('int-desc').textContent = INT_DESCS[val];
+  render();
+}
+
+/* ═══════════════════════════════════════════════════
+   CONVERSOR
+═══════════════════════════════════════════════════ */
+function convertWith(text, map, level) {
+  return text.split('').map(c => {
+    const entry = map[c];
+    if (!entry) return c;
+    if (level === 1) return VOWELS.has(c) ? entry[0] : c;
+    if (level === 2) return entry[1];
+    return entry[2];
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════
+   GENERADORES POR SECCIÓN
+═══════════════════════════════════════════════════ */
+function genMath(text, lvl) {
+  const base = convertWith(text, MATH, lvl);
+  const results = new Set([base]);
+  // variaciones mixtas
+  results.add(convertWith(text, MATH, Math.max(1, lvl - 1)));
+  if (lvl === 3) results.add(convertWith(text, MATH, 2));
+  // capitalización
+  [base, ...results].forEach(r => {
+    results.add(r.toUpperCase());
+    results.add(r.toLowerCase());
+    results.add(r.charAt(0).toUpperCase() + r.slice(1));
+  });
+  return [...results].filter(r => r !== text);
+}
+
+function genRune(text, lvl) {
+  const base = convertWith(text, RUNE, lvl);
+  const results = new Set([base]);
+  results.add(convertWith(text, RUNE, Math.min(3, lvl + 1)));
+  results.add(base.toUpperCase());
+  results.add(base.toLowerCase());
+  return [...results].filter(r => r !== text);
+}
+
+function genEmoji(text, lvl) {
+  const results = new Set();
+  // nivel 1: solo vocales emoji
+  const e1 = text.split('').map(c => VOWELS.has(c) && EMOJI[c] ? EMOJI[c][1] : c).join('');
+  results.add(e1);
+  // nivel 2/3: todo emoji
+  results.add(convertWith(text, EMOJI, 2));
+  results.add(convertWith(text, EMOJI, 3));
+  // mezcla emoji + math
+  const mix = text.split('').map(c => {
+    if (VOWELS.has(c) && EMOJI[c]) return EMOJI[c][1];
+    if (MATH[c]) return MATH[c][lvl - 1] || c;
+    return c;
+  }).join('');
+  results.add(mix);
+  return [...results].filter(r => r !== text);
+}
+
+function genFrames(text, lvl) {
+  const bases = [
+    convertWith(text, MATH, lvl),
+    convertWith(text, RUNE, lvl),
+    convertWith(text, MATH, Math.max(1, lvl - 1)),
+  ];
+  const frameSet = lvl === 1 ? FRAMES_SIMPLE : lvl === 2 ? [...FRAMES_SIMPLE, ...FRAMES_MED] : [...FRAMES_MED, ...FRAMES_MAX];
+  const results = new Set();
+  bases.forEach(base => {
+    frameSet.forEach(f => results.add(f(base)));
+  });
+  // también el texto original enmarcado
+  frameSet.forEach(f => results.add(f(text)));
+  return [...results];
+}
+
+/* ═══════════════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════════════ */
+function buildGrid(gridId, items, styleLabel) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = '';
+  items.forEach(nick => {
+    const card = document.createElement('div');
+    card.className = 'nick-card';
+    const safe = nick.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    card.innerHTML = `
+      <div class="nick-text">
+        ${safe}
+        ${styleLabel ? `<span class="nick-style">${styleLabel}</span>` : ''}
+      </div>
+      <button class="nick-copy" onclick="event.stopPropagation();copyText('${nick.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}')">⎘ Copiar</button>`;
+    card.addEventListener('click', () => copyText(nick));
+    grid.appendChild(card);
+  });
+  return items.length;
+}
+
+function render() {
+  const text = document.getElementById('nickInput').value.trim();
+  const empty  = document.getElementById('empty-state');
+  const allRes = document.getElementById('all-results');
+
+  if (!text) {
+    empty.style.display  = 'block';
+    allRes.style.display = 'none';
+    return;
+  }
+
+  empty.style.display  = 'none';
+  allRes.style.display = 'block';
+
+  const lvl = intensity;
+
+  const cM = buildGrid('grid-math',  genMath(text, lvl),  'matemático / moneda');
+  const cR = buildGrid('grid-rune',  genRune(text, lvl),  'runas nórdicas');
+  const cE = buildGrid('grid-emoji', genEmoji(text, lvl), 'emojis / iconos');
+  const cF = buildGrid('grid-frame', genFrames(text, lvl),'con marco decorativo');
+
+  document.getElementById('cnt-math').textContent  = cM;
+  document.getElementById('cnt-rune').textContent  = cR;
+  document.getElementById('cnt-emoji').textContent = cE;
+  document.getElementById('cnt-frame').textContent = cF;
+}
+
+/* ═══════════════════════════════════════════════════
+   TABLA DE SUSTITUCIONES
+═══════════════════════════════════════════════════ */
+function buildMapTable() {
+  const table = document.getElementById('mapTable');
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  // Mostrar solo mayúsculas para no hacer la tabla enorme
+  const uniq = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  let html = '';
+  for (let i = 0; i < uniq.length; i += 2) {
+    html += '<tr>';
+    for (let j = i; j < Math.min(i+2, uniq.length); j++) {
+      const L = uniq[j];
+      const l = L.toLowerCase();
+      const mSets = [
+        ...(MATH[L]   || []), ...(MATH[l]   || []),
+        ...(RUNE[L]   || []), ...(RUNE[l]   || []),
+      ];
+      const unique = [...new Set(mSets)].filter(s => s && s !== L && s !== l);
+      html += `<td class="orig">${L}</td><td><div class="syms">${unique.map(s => `<span class="sym-tag" onclick="copyText('${s.replace(/'/g,"\\'")}')">${s}</span>`).join('')}</div></td>`;
+    }
+    if (uniq.length % 2 !== 0 && i === uniq.length - 1) html += '<td></td><td></td>';
+    html += '</tr>';
+  }
+  table.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════════════ */
+function copyText(text) {
+  navigator.clipboard.writeText(text);
+  showToast('✔️ Copiado: ' + text.slice(0,24) + (text.length > 24 ? '…' : ''));
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.style.display = 'none', 1800);
+}
+function clearInput() {
+  document.getElementById('nickInput').value = '';
+  render();
+}
+
+// Listeners
+document.getElementById('nickInput').addEventListener('input', render);
+
+// Init
+buildMapTable();
+render();
+</script>
+</body>
+</html>
