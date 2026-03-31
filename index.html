@@ -1,510 +1,325 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NickFFinsanos | Generador de Apodos, Símbolos y Letras Pro</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #3b5998;
-            --bg-body: #f2f4f7;
-            --text-blue: #4a69bd;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-            --sidebar-w: 270px;
-        }
+import { useState } from "react";
+import { Box, TrendingUp, Trophy, Copy, Check, Search, Pickaxe } from "lucide-react";
+import { toast } from "sonner";
 
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-body); margin: 0; display: flex; color: #333; }
+export function Minecraft() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [copiedNick, setCopiedNick] = useState<string | null>(null);
 
-        /* --- SIDEBAR REPLICADA DE TUS IMÁGENES --- */
-        nav.sidebar { width: var(--sidebar-w); background: #fff; border-right: 1px solid #ddd; height: 100vh; position: sticky; top: 0; overflow-y: auto; flex-shrink: 0; }
-        .logo { background: var(--primary); text-align: center; border-bottom: 3px solid rgba(0,0,0,0.1); }
-        .logo a { display: block; padding: 22px; color: white; font-weight: 900; font-size: 1.5rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; }
+  const minecraftNicks = [
+    { nick: "『Nᴏᴛᴄʜ』", votes: 412345, category: "Legendarios" },
+    { nick: "◥꧁ད BUILDER ཌ꧂◤", votes: 387654, category: "Constructores" },
+    { nick: "【ⓂⒾⓃⒺⓇ】", votes: 356789, category: "Mineros" },
+    { nick: "꧁༺ STEVE ༻꧂", votes: 334567, category: "Clásicos" },
+    { nick: "✨ENCHANTER✨", votes: 312345, category: "Encantadores" },
+    { nick: "『REDSTONE』PRO", votes: 298765, category: "Redstoners" },
+    { nick: "༺♛CRAFTER♛༻", votes: 287654, category: "Crafteros" },
+    { nick: "【ENDER】DRAGON", votes: 276543, category: "Ender" },
+    { nick: "꧁WARRIOR꧂", votes: 265432, category: "PvP" },
+    { nick: "『ᴄʀᴇᴇᴘᴇʀ』", votes: 254321, category: "Mobs" },
+    { nick: "◆DIAMOND◆", votes: 243210, category: "Recursos" },
+    { nick: "༒☬HEROBRINE☬༒", votes: 232109, category: "Legendarios" },
+    { nick: "【ARCHITECT】", votes: 221098, category: "Constructores" },
+    { nick: "『SURVIVOR』", votes: 210987, category: "Survival" },
+    { nick: "◥꧁EXPLORER꧂◤", votes: 198876, category: "Aventureros" },
+    { nick: "【ᴘɪxᴇʟ】MASTER", votes: 187765, category: "Pixel Art" },
+    { nick: "✦ENDERMAN✦", votes: 176654, category: "Ender" },
+    { nick: "『FARMER』", votes: 165543, category: "Granjeros" },
+    { nick: "༺KNIGHT༻", votes: 154432, category: "PvP" },
+    { nick: "【NETHER】LORD", votes: 143321, category: "Nether" }
+  ];
+
+  const categories = [...new Set(minecraftNicks.map(n => n.category))];
+
+  const filteredNicks = searchTerm 
+    ? minecraftNicks.filter(n => n.nick.toLowerCase().includes(searchTerm.toLowerCase()) || n.category.toLowerCase().includes(searchTerm.toLowerCase()))
+    : minecraftNicks;
+
+  const copyToClipboard = (nick: string) => {
+    navigator.clipboard.writeText(nick);
+    setCopiedNick(nick);
+    toast.success("¡Nickname copiado!");
+    setTimeout(() => setCopiedNick(null), 2000);
+  };
+
+  return (
+    <div>
+      {/* Header */}
+      <div className="bg-gradient-to-r from-[#8e44ad] to-[#9b59b6] p-8 rounded border border-gray-300 text-center mb-6 shadow-lg">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <Box className="w-12 h-12 text-white" />
+          <h1 className="text-4xl m-0 text-white font-black">
+            Minecraft Nicknames
+          </h1>
+        </div>
+        <p className="text-lg text-white/90">
+          Nombres creativos y únicos para Minecraft Java y Bedrock
+        </p>
+      </div>
+
+      {/* Search */}
+      <div className="bg-white p-6 rounded border border-gray-300 mb-6">
+        <div className="relative max-w-2xl mx-auto">
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar por nombre o categoría..."
+            className="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-lg text-lg outline-none focus:border-[#8e44ad] transition-colors"
+          />
+        </div>
+      </div>
+
+      {/* Categories Pills */}
+      <div className="bg-white p-4 rounded border border-gray-300 mb-6">
+        <div className="flex flex-wrap gap-2 justify-center">
+          <button
+            onClick={() => setSearchTerm("")}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${!searchTerm ? 'bg-[#8e44ad] text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+          >
+            Todos
+          </button>
+          {categories.map((cat, index) => (
+            <button
+              key={index}
+              onClick={() => setSearchTerm(cat)}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${searchTerm === cat ? 'bg-[#8e44ad] text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Nicknames List */}
+      <div className="bg-white border border-gray-300 rounded mb-6">
+        <div className="bg-[#efefff] px-5 py-3 text-lg font-semibold text-gray-700 border-b border-gray-300 flex items-center gap-2">
+          <Trophy className="w-5 h-5 text-[#8e44ad]" />
+          Nicknames populares ({filteredNicks.length})
+        </div>
+        <div className="p-5 space-y-3">
+          {filteredNicks.map((item, index) => (
+            <div
+              key={index}
+              className="border border-gray-200 rounded p-4 hover:border-[#8e44ad] hover:bg-gray-50 transition-all cursor-pointer flex items-center justify-between group"
+              onClick={() => copyToClipboard(item.nick)}
+            >
+              <div className="flex items-center gap-4 flex-1">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#8e44ad] to-[#9b59b6] rounded-full flex items-center justify-center text-white font-bold">
+                  #{index + 1}
+                </div>
+                <div className="flex-1">
+                  <div className="font-mono text-xl font-semibold text-gray-800 mb-1">
+                    {item.nick}
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <span className="text-gray-600">{item.category}</span>
+                    <span className="flex items-center gap-1 text-[#8e44ad]">
+                      <TrendingUp className="w-4 h-4" />
+                      {item.votes.toLocaleString()} votos
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {copiedNick === item.nick ? (
+                <div className="flex items-center gap-2 text-green-600">
+                  <Check className="w-5 h-5" />
+                  <span className="text-sm font-semibold">Copiado</span>
+                </div>
+              ) : (
+                <Copy className="w-5 h-5 text-gray-400 group-hover:text-[#8e44ad]" />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Info Section */}
+      <div className="bg-white border border-gray-300 p-8 rounded">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 border-l-4 border-[#8e44ad] pl-4">
+          Guía completa para nicknames en Minecraft
+        </h2>
         
-        .sidebar-item { padding: 12px 20px; display: flex; align-items: center; gap: 12px; color: #555; text-decoration: none; border-bottom: 1px solid #f8f8f8; font-size: 0.95rem; }
-        .sidebar-item:hover { background: #f1f4f9; color: var(--primary); }
-        .sidebar-item i { width: 20px; font-size: 1.1rem; text-align: center; }
-        
-        .sidebar-cat { background: #f0f4f8; padding: 12px 20px; font-size: 0.8rem; font-weight: bold; color: #7f8c8d; text-transform: uppercase; border-top: 1px solid #eee; }
+        <div className="space-y-6 text-gray-600 leading-relaxed">
+          <div>
+            <h3 className="text-xl font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <Pickaxe className="w-6 h-6 text-[#8e44ad]" />
+              ¿Por qué es importante tu nombre en Minecraft?
+            </h3>
+            <p className="mb-3">
+              En Minecraft, tu username es permanente y te representa en todos los servidores. 
+              A diferencia de otros juegos, NO puedes usar símbolos especiales en el nombre oficial 
+              de Minecraft (solo letras, números y guión bajo), pero puedes usar símbolos en:
+            </p>
+            <ul className="list-disc list-inside space-y-2 ml-4">
+              <li><strong>Nombres de display en servidores</strong> - Muchos servidores permiten cambiar tu nombre visible</li>
+              <li><strong>Discord y redes sociales</strong> - Usa símbolos para tu presencia en comunidades</li>
+              <li><strong>Nombres de mundos y construcciones</strong> - Carteles, libros, y títulos decorativos</li>
+              <li><strong>Skins personalizadas</strong> - Refleja tu estilo con texturas únicas</li>
+            </ul>
+          </div>
 
-        /* --- CONTENIDO --- */
-        main { flex: 1; padding: 25px; max-width: 1000px; margin: 0 auto; }
-
-        /* HERO & BUSCADOR */
-        .hero-box { background: white; padding: 40px; border-radius: 4px; border: 1px solid #ddd; text-align: center; margin-bottom: 25px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .hero-box h1 { font-size: 2.2rem; margin: 0; color: #222; }
-        .hero-box span { color: var(--primary); }
-        .search-group { display: flex; max-width: 650px; margin: 25px auto 10px; border: 2px solid #ddd; border-radius: 4px; overflow: hidden; }
-        .search-group input { flex: 1; padding: 15px; border: none; outline: none; font-size: 1.1rem; }
-        .search-group button { background: var(--primary); color: white; border: none; padding: 0 35px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-
-        /* APODOS RECIENTES */
-        .card-container { background: white; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 25px; }
-        .card-header { background: #efefff; padding: 12px 18px; font-size: 1.1rem; font-weight: 600; color: #444; border-bottom: 1px solid #ddd; }
-        .nick-cloud { padding: 20px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-        .nick-cloud a { text-decoration: none; color: var(--text-blue); font-size: 1.05rem; padding: 4px 8px; transition: 0.2s; }
-        .nick-cloud a:hover { background: #eef2ff; border-radius: 4px; text-decoration: underline; }
-
-        /* BOTÓN ALEATORIO */
-        .btn-random { display: block; width: fit-content; margin: 0 auto 30px; padding: 12px 45px; border: 2px solid var(--text-blue); border-radius: 40px; color: var(--text-blue); text-decoration: none; font-weight: bold; font-size: 1rem; transition: 0.3s; }
-        .btn-random:hover { background: var(--text-blue); color: white; }
-
-        /* TENDENCIAS */
-        .trend-row { background: white; border: 1px solid #ddd; padding: 15px 20px; display: flex; align-items: center; margin-bottom: 12px; border-radius: 4px; transition: 0.2s; cursor: pointer; }
-        .trend-row:hover { border-color: var(--primary); background: #fafafa; }
-        .game-tag { width: 100px; font-weight: bold; color: var(--text-blue); font-size: 1rem; }
-        .nick-display { flex: 1; text-align: center; font-size: 1.4rem; font-weight: bold; font-family: monospace; }
-        .votation-box { text-align: right; min-width: 140px; }
-        .mini-stats { font-size: 0.8rem; font-weight: bold; display: flex; justify-content: flex-end; gap: 12px; margin-bottom: 4px; }
-        .big-stats { font-size: 0.9rem; font-weight: bold; display: flex; justify-content: flex-end; gap: 10px; }
-
-        .up { color: var(--success); }
-        .down { color: #aaa; }
-        .pos-num { color: var(--success); }
-        .neg-num { color: #d39a61; }
-
-        /* BLOQUE DE SÍMBOLOS */
-        .symbols-grid { background: white; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 25px; }
-        .sym-section { padding: 15px 20px; border-bottom: 1px solid #f0f0f0; }
-        .sym-section:last-child { border-bottom: none; }
-        .sym-label { font-size: 0.78rem; font-weight: bold; color: #7f8c8d; text-transform: uppercase; margin-bottom: 10px; }
-        .sym-row { display: flex; flex-wrap: wrap; gap: 8px; }
-        .sym-btn { background: #f7f9fc; border: 1px solid #e0e4ed; border-radius: 4px; padding: 6px 12px; font-size: 1.2rem; cursor: pointer; transition: 0.15s; color: #333; }
-        .sym-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.1); }
-
-        /* LETRAS ESPECIALES */
-        .font-card { background: white; border: 1px solid #d1d5db; border-radius: 4px; margin-bottom: 12px; overflow: hidden; }
-        .font-card-head { background: #f7f9fc; padding: 10px 18px; font-size: 0.85rem; color: #7f8c8d; border-bottom: 1px solid #eee; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        .font-card-body { padding: 14px 18px; font-size: 1.35rem; letter-spacing: 2px; display: flex; justify-content: space-between; align-items: center; }
-        .font-card-body .copy-btn { font-size: 0.75rem; background: #eef2ff; color: var(--text-blue); border: 1px solid #c5cff5; border-radius: 4px; padding: 4px 10px; cursor: pointer; white-space: nowrap; }
-        .font-card-body .copy-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* SEO FOOTER */
-        .seo-footer { background: white; border: 1px solid #ddd; padding: 30px; border-radius: 4px; margin-top: 40px; line-height: 1.7; color: #555; }
-        .seo-footer h3 { color: var(--primary); border-left: 5px solid var(--primary); padding-left: 15px; }
-        .seo-footer h4 { color: #444; margin-top: 25px; }
-
-        /* SECCIÓN TÍTULO */
-        .section-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 15px; color:#444; margin-top: 10px; }
-
-        #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #222; color: white; padding: 10px 30px; border-radius: 4px; display: none; font-weight: bold; z-index: 999; }
-    </style>
-</head>
-<body>
-
-    <nav class="sidebar">
-        <div class="logo"><a href="index.html">NickFFinsanos</a></div>
-        
-        <a href="simbolos.html" class="sidebar-item"><i class="fa-solid fa-gem" style="color:#00d2ff"></i> Fuente y símbolos</a>
-        <a href="combinar.html" class="sidebar-item"><i class="fa-solid fa-link" style="color:#7f8c8d"></i> Combinar dos nombres</a>
-        <a href="apodo-simbolos.html" class="sidebar-item"><i class="fa-solid fa-star" style="color:#f1c40f"></i> Apodo a símbolos</a>
-        <a href="generador-texto.html" class="sidebar-item"><i class="fa-solid fa-file-lines" style="color:#95a5a6"></i> Generador de texto</a>
-        
-        <div class="sidebar-cat">CATEGORÍAS</div>
-        <a href="por-simbolo.html" class="sidebar-item"><i class="fa-solid fa-magnifying-glass" style="color:#7f8c8d"></i> Por símbolo</a>
-        <a href="masculino.html" class="sidebar-item"><i class="fa-solid fa-mars" style="color:#f39c12"></i> Nombres masculinos</a>
-        <a href="femenino.html" class="sidebar-item"><i class="fa-solid fa-venus" style="color:#f1c40f"></i> Nombres femeninos</a>
-        <a href="contrasenas.html" class="sidebar-item"><i class="fa-solid fa-lock" style="color:#2d3436"></i> Generador de contraseñas</a>
-        <a href="dominios.html" class="sidebar-item"><i class="fa-solid fa-earth-americas" style="color:#00d2ff"></i> Nombres de dominio</a>
-        
-        <div class="sidebar-cat">POPULARES</div>
-        <a href="freefire.html" class="sidebar-item"><i class="fa-solid fa-gamepad" style="color:#2d3436"></i> Free Fire</a>
-        <a href="pubg-cod.html" class="sidebar-item"><i class="fa-solid fa-gun" style="color:#27ae60"></i> PUBG / COD</a>
-        <a href="minecraft.html" class="sidebar-item"><i class="fa-solid fa-cube" style="color:#8e44ad"></i> Minecraft</a>
-    </nav>
-
-    <main>
-
-        <!-- HERO -->
-        <div class="hero-box">
-            <h1>Apodos para <span>NickFFinsanos</span></h1>
-            <p>Crea nombres con símbolos raros, letras especiales y decoraciones para juegos como Free Fire, PUBG y Minecraft.</p>
-            <div class="search-group">
-                <input type="text" id="mainIn" placeholder="Ej: Ninja, Pro, Rey, Dark...">
-                <button onclick="generar()">GENERAR</button>
-            </div>
-            <small style="color:#999">Escribe un nombre y presiona GENERAR para crear variaciones con símbolos automáticos.</small>
-        </div>
-
-        <!-- RESULTADO GENERADOR -->
-        <div id="results-box" style="display:none;" class="card-container">
-            <div class="card-header">✨ Variaciones generadas</div>
-            <div id="results-inner" class="nick-cloud"></div>
-        </div>
-
-        <!-- APODOS RECIENTES -->
-        <div class="card-container">
-            <div class="card-header">🔥 Apodos recientes buscados</div>
-            <div class="nick-cloud">
-                <a href="#" onclick="setInput('꧁༺ Ɗαɾƙ ༻꧂')">꧁༺ Ɗαɾƙ ༻꧂</a>
-                <a href="#" onclick="setInput('★彡 Ⲕαωαii 彡★')">★彡 Ⲕαωαii 彡★</a>
-                <a href="#" onclick="setInput('ℜuꜱo')">ℜuꜱo</a>
-                <a href="#" onclick="setInput('꧁✞ ₦iñᴊα ✞꧂')">꧁✞ ₦iñᴊα ✞꧂</a>
-                <a href="#" onclick="setInput('༄ŁøVeStory彡')">༄ŁøVeStory彡</a>
-                <a href="#" onclick="setInput('Ꮪelenα')">Ꮪelenα</a>
-                <a href="#" onclick="setInput('☆꧁ Ứɾieℓ ꧂☆')">☆꧁ Ứɾieℓ ꧂☆</a>
-                <a href="#" onclick="setInput('✦ Ƭɾαviéᴢo ✦')">✦ Ƭɾαviéᴢo ✦</a>
-                <a href="#" onclick="setInput('꧁Ñ€ꜱqüíƙ꧂')">꧁Ñ€ꜱqüíƙ꧂</a>
-                <a href="#" onclick="setInput('彡Feɾɳαɳᴅo彡ΎT')">彡Feɾɳαɳᴅo彡ΎT</a>
-                <a href="#" onclick="setInput('ᴴ᷊ᴬ᷊ᴺ᷊ᴺ᷊ᴵ᷊')">ᴴ᷊ᴬ᷊ᴺ᷊ᴺ᷊ᴵ᷊</a>
-                <a href="#" onclick="setInput('꧁༒☬ Ꭵuᴛα ☬༒꧂')">꧁༒☬ Ꭵuᴛα ☬༒꧂</a>
-                <a href="#" onclick="setInput('꧁♛ Ᵽɾiɳcesα ♛꧂')">꧁♛ Ᵽɾiɳcesα ♛꧂</a>
-                <a href="#" onclick="setInput('Ꭼᴅᵤαɾᴅo⚡')">Ꭼᴅᵤαɾᴅo⚡</a>
-                <a href="#" onclick="setInput('𝕼𝖚𝖊𝖊𝖓 👑')">𝕼𝖚𝖊𝖊𝖓 👑</a>
-                <a href="#" onclick="setInput('ᵍᵃⁿᵍˢᵗᵉᴿ')">ᵍᵃⁿᵍˢᵗᵉᴿ</a>
-                <a href="#" onclick="setInput('Ꮪebaꜱᴛiáɳ')">Ꮪebaꜱᴛiáɳ</a>
-                <a href="#" onclick="setInput('꧁✧ Ꮯhiɳo ✧꧂')">꧁✧ Ꮯhiɳo ✧꧂</a>
-                <a href="#" onclick="setInput('𝓓𝓮𝓷𝓸 ༄')">𝓓𝓮𝓷𝓸 ༄</a>
-                <a href="#" onclick="setInput('TαℓEH ꧁꧂')">TαℓEH ꧁꧂</a>
-            </div>
-        </div>
-
-        <a href="#" class="btn-random" onclick="nickAleatorio(); return false;">⚡ Apodo aleatorio →</a>
-
-        <!-- TENDENCIAS -->
-        <div class="section-title">🏆 Tendencias de popularidad</div>
-
-        <div class="trend-row" onclick="copy('꧁༺ ₦Ї₦ℑ₳ ༻꧂')">
-            <div class="game-tag">Freefire</div>
-            <div class="nick-display">꧁༺ ₦Ї₦ℑ₳ ༻꧂</div>
-            <div class="votation-box">
-                <div class="mini-stats"><span class="up">▲ 15</span> <span class="down">▼ 13</span></div>
-                <div class="big-stats"><span class="pos-num">+561493</span> <span class="neg-num">-362708</span></div>
-            </div>
-        </div>
-        <div class="trend-row" onclick="copy('☆꧁༒ ☬KING☬ ༒꧂☆')">
-            <div class="game-tag">Freefire</div>
-            <div class="nick-display">☆꧁༒ ☬KING☬ ༒꧂☆</div>
-            <div class="votation-box">
-                <div class="mini-stats"><span class="up">▲ 14</span> <span class="down">▼ 8</span></div>
-                <div class="big-stats"><span class="pos-num">+457673</span> <span class="neg-num">-367390</span></div>
-            </div>
-        </div>
-        <div class="trend-row" onclick="copy('꧁༒☬ 𝓓𝓪𝓻𝓴𝓝𝓮𝓼𝓼 ☬༒꧂')">
-            <div class="game-tag">PUBG</div>
-            <div class="nick-display">꧁༒☬ 𝓓𝓪𝓻𝓴𝓝𝓮𝓼𝓼 ☬༒꧂</div>
-            <div class="votation-box">
-                <div class="mini-stats"><span class="up">▲ 22</span> <span class="down">▼ 5</span></div>
-                <div class="big-stats"><span class="pos-num">+398120</span> <span class="neg-num">-145300</span></div>
-            </div>
-        </div>
-        <div class="trend-row" onclick="copy('✦彡 ℙro乄Ꮆamer 彡✦')">
-            <div class="game-tag">COD</div>
-            <div class="nick-display">✦彡 ℙro乄Ꮆamer 彡✦</div>
-            <div class="votation-box">
-                <div class="mini-stats"><span class="up">▲ 18</span> <span class="down">▼ 9</span></div>
-                <div class="big-stats"><span class="pos-num">+312440</span> <span class="neg-num">-198760</span></div>
-            </div>
-        </div>
-        <div class="trend-row" onclick="copy('★ 𝕾𝖆𝖓𝖌𝖗𝖊 ★ 𝕯𝖊 𝕯𝖗𝖆𝖌ó𝖓')">
-            <div class="game-tag">Minecraft</div>
-            <div class="nick-display">★ 𝕾𝖆𝖓𝖌𝖗𝖊 ★ 𝕯𝖊 𝕯𝖗𝖆𝖌ó𝖓</div>
-            <div class="votation-box">
-                <div class="mini-stats"><span class="up">▲ 11</span> <span class="down">▼ 4</span></div>
-                <div class="big-stats"><span class="pos-num">+287950</span> <span class="neg-num">-89120</span></div>
-            </div>
-        </div>
-        <div class="trend-row" onclick="copy('꧁⚔️ ᎥƝᏉᎥCᏆO ⚔️꧂')">
-            <div class="game-tag">Freefire</div>
-            <div class="nick-display">꧁⚔️ ᎥƝᏉᎥCᏆO ⚔️꧂</div>
-            <div class="votation-box">
-                <div class="mini-stats"><span class="up">▲ 9</span> <span class="down">▼ 6</span></div>
-                <div class="big-stats"><span class="pos-num">+243870</span> <span class="neg-num">-176540</span></div>
-            </div>
-        </div>
-        <div class="trend-row" onclick="copy('༄ᵍᵒᵈ•Ꮥᴜᴘʀᴇᴍo༄')">
-            <div class="game-tag">PUBG</div>
-            <div class="nick-display">༄ᵍᵒᵈ•Ꮥᴜᴘʀᴇᴍo༄</div>
-            <div class="votation-box">
-                <div class="mini-stats"><span class="up">▲ 7</span> <span class="down">▼ 3</span></div>
-                <div class="big-stats"><span class="pos-num">+198200</span> <span class="neg-num">-54310</span></div>
-            </div>
-        </div>
-
-        <!-- SÍMBOLOS POR CATEGORÍA -->
-        <div class="section-title" style="margin-top:30px;">🎯 Símbolos para nicks — haz clic para copiar</div>
-
-        <div class="symbols-grid">
-            <div class="sym-section">
-                <div class="sym-label">⚔️ Bordes y marcos populares</div>
-                <div class="sym-row">
-                    <button class="sym-btn" onclick="copySym('꧁')">꧁</button>
-                    <button class="sym-btn" onclick="copySym('꧂')">꧂</button>
-                    <button class="sym-btn" onclick="copySym('༺')">༺</button>
-                    <button class="sym-btn" onclick="copySym('༻')">༻</button>
-                    <button class="sym-btn" onclick="copySym('༒')">༒</button>
-                    <button class="sym-btn" onclick="copySym('☬')">☬</button>
-                    <button class="sym-btn" onclick="copySym('彡')">彡</button>
-                    <button class="sym-btn" onclick="copySym('乄')">乄</button>
-                    <button class="sym-btn" onclick="copySym('《')">《</button>
-                    <button class="sym-btn" onclick="copySym('》')">》</button>
-                    <button class="sym-btn" onclick="copySym('【')">【</button>
-                    <button class="sym-btn" onclick="copySym('】')">】</button>
-                    <button class="sym-btn" onclick="copySym('⌈')">⌈</button>
-                    <button class="sym-btn" onclick="copySym('⌉')">⌉</button>
-                    <button class="sym-btn" onclick="copySym('⌊')">⌊</button>
-                    <button class="sym-btn" onclick="copySym('⌋')">⌋</button>
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 border-l-4 border-[#8e44ad] p-6 rounded-lg">
+            <h3 className="text-xl font-bold text-gray-800 mb-3">⛏️ Nombres por estilo de juego</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <h4 className="font-bold text-gray-800 mb-2">🏗️ Survival/Builder</h4>
+                <p className="text-sm mb-2">Enfocado en construcción y supervivencia:</p>
+                <div className="space-y-1 text-sm font-mono bg-white p-2 rounded">
+                  <div>Builder_Pro</div>
+                  <div>Master_Crafter</div>
+                  <div>Diamond_Miner</div>
+                  <div>Architect_X</div>
                 </div>
-            </div>
-            <div class="sym-section">
-                <div class="sym-label">✨ Estrellas y brillos</div>
-                <div class="sym-row">
-                    <button class="sym-btn" onclick="copySym('★')">★</button>
-                    <button class="sym-btn" onclick="copySym('☆')">☆</button>
-                    <button class="sym-btn" onclick="copySym('✦')">✦</button>
-                    <button class="sym-btn" onclick="copySym('✧')">✧</button>
-                    <button class="sym-btn" onclick="copySym('✩')">✩</button>
-                    <button class="sym-btn" onclick="copySym('✪')">✪</button>
-                    <button class="sym-btn" onclick="copySym('⭐')">⭐</button>
-                    <button class="sym-btn" onclick="copySym('🌟')">🌟</button>
-                    <button class="sym-btn" onclick="copySym('✨')">✨</button>
-                    <button class="sym-btn" onclick="copySym('💫')">💫</button>
-                    <button class="sym-btn" onclick="copySym('⋆')">⋆</button>
-                    <button class="sym-btn" onclick="copySym('͙')">͙</button>
-                    <button class="sym-btn" onclick="copySym('ꕥ')">ꕥ</button>
-                    <button class="sym-btn" onclick="copySym('꙳')">꙳</button>
+              </div>
+              <div>
+                <h4 className="font-bold text-gray-800 mb-2">⚔️ PvP/Combat</h4>
+                <p className="text-sm mb-2">Para jugadores competitivos:</p>
+                <div className="space-y-1 text-sm font-mono bg-white p-2 rounded">
+                  <div>xX_Warrior_Xx</div>
+                  <div>PvP_Legend</div>
+                  <div>Combat_King</div>
+                  <div>The_Destroyer</div>
                 </div>
-            </div>
-            <div class="sym-section">
-                <div class="sym-label">👑 Coronas, poder y rango</div>
-                <div class="sym-row">
-                    <button class="sym-btn" onclick="copySym('♛')">♛</button>
-                    <button class="sym-btn" onclick="copySym('♜')">♜</button>
-                    <button class="sym-btn" onclick="copySym('♚')">♚</button>
-                    <button class="sym-btn" onclick="copySym('👑')">👑</button>
-                    <button class="sym-btn" onclick="copySym('⚜')">⚜</button>
-                    <button class="sym-btn" onclick="copySym('🏆')">🏆</button>
-                    <button class="sym-btn" onclick="copySym('⚔️')">⚔️</button>
-                    <button class="sym-btn" onclick="copySym('🗡️')">🗡️</button>
-                    <button class="sym-btn" onclick="copySym('🔥')">🔥</button>
-                    <button class="sym-btn" onclick="copySym('💀')">💀</button>
-                    <button class="sym-btn" onclick="copySym('⛧')">⛧</button>
-                    <button class="sym-btn" onclick="copySym('✝')">✝</button>
-                    <button class="sym-btn" onclick="copySym('✞')">✞</button>
-                    <button class="sym-btn" onclick="copySym('☩')">☩</button>
+              </div>
+              <div>
+                <h4 className="font-bold text-gray-800 mb-2">🔴 Redstone Engineer</h4>
+                <p className="text-sm mb-2">Para expertos en mecánicas:</p>
+                <div className="space-y-1 text-sm font-mono bg-white p-2 rounded">
+                  <div>Redstone_Master</div>
+                  <div>Engineer_Tech</div>
+                  <div>Circuit_Genius</div>
+                  <div>Auto_Farmer</div>
                 </div>
-            </div>
-            <div class="sym-section">
-                <div class="sym-label">💎 Flechas y decoración</div>
-                <div class="sym-row">
-                    <button class="sym-btn" onclick="copySym('➤')">➤</button>
-                    <button class="sym-btn" onclick="copySym('➥')">➥</button>
-                    <button class="sym-btn" onclick="copySym('↯')">↯</button>
-                    <button class="sym-btn" onclick="copySym('⟶')">⟶</button>
-                    <button class="sym-btn" onclick="copySym('⚡')">⚡</button>
-                    <button class="sym-btn" onclick="copySym('💠')">💠</button>
-                    <button class="sym-btn" onclick="copySym('🔷')">🔷</button>
-                    <button class="sym-btn" onclick="copySym('◆')">◆</button>
-                    <button class="sym-btn" onclick="copySym('◇')">◇</button>
-                    <button class="sym-btn" onclick="copySym('▸')">▸</button>
-                    <button class="sym-btn" onclick="copySym('◉')">◉</button>
-                    <button class="sym-btn" onclick="copySym('༄')">༄</button>
-                    <button class="sym-btn" onclick="copySym('꩜')">꩜</button>
-                    <button class="sym-btn" onclick="copySym('꩝')">꩝</button>
+              </div>
+              <div>
+                <h4 className="font-bold text-gray-800 mb-2">🎨 Creative/Artist</h4>
+                <p className="text-sm mb-2">Para constructores artísticos:</p>
+                <div className="space-y-1 text-sm font-mono bg-white p-2 rounded">
+                  <div>Pixel_Artist</div>
+                  <div>Creative_Soul</div>
+                  <div>Master_Builder</div>
+                  <div>Terraform_Pro</div>
                 </div>
+              </div>
             </div>
-            <div class="sym-section">
-                <div class="sym-label">💕 Amor y kawaii</div>
-                <div class="sym-row">
-                    <button class="sym-btn" onclick="copySym('♥')">♥</button>
-                    <button class="sym-btn" onclick="copySym('❤')">❤</button>
-                    <button class="sym-btn" onclick="copySym('💖')">💖</button>
-                    <button class="sym-btn" onclick="copySym('💕')">💕</button>
-                    <button class="sym-btn" onclick="copySym('💗')">💗</button>
-                    <button class="sym-btn" onclick="copySym('🌸')">🌸</button>
-                    <button class="sym-btn" onclick="copySym('🌺')">🌺</button>
-                    <button class="sym-btn" onclick="copySym('🦋')">🦋</button>
-                    <button class="sym-btn" onclick="copySym('ꔫ')">ꔫ</button>
-                    <button class="sym-btn" onclick="copySym('✿')">✿</button>
-                    <button class="sym-btn" onclick="copySym('❀')">❀</button>
-                    <button class="sym-btn" onclick="copySym('ʚ')">ʚ</button>
-                    <button class="sym-btn" onclick="copySym('ɞ')">ɞ</button>
-                    <button class="sym-btn" onclick="copySym('ིི')">ིི</button>
-                </div>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <h3 className="font-bold text-gray-800 mb-3">📚 Inspiración de Minecraft</h3>
+            <div className="grid md:grid-cols-3 gap-4 text-sm">
+              <div>
+                <h4 className="font-bold mb-2">🎮 Referencias del juego:</h4>
+                <ul className="space-y-1 list-disc list-inside">
+                  <li>Steve / Alex</li>
+                  <li>Notch (creador)</li>
+                  <li>Herobrine (leyenda)</li>
+                  <li>Entity_303</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold mb-2">💎 Recursos valiosos:</h4>
+                <ul className="space-y-1 list-disc list-inside">
+                  <li>Diamond_Hunter</li>
+                  <li>Emerald_Trader</li>
+                  <li>Netherite_King</li>
+                  <li>Gold_Rusher</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold mb-2">👾 Mobs icónicos:</h4>
+                <ul className="space-y-1 list-disc list-inside">
+                  <li>Creeper_Lord</li>
+                  <li>Enderman_X</li>
+                  <li>Wither_Storm</li>
+                  <li>Dragon_Slayer</li>
+                </ul>
+              </div>
             </div>
-            <div class="sym-section">
-                <div class="sym-label">🔤 Espacio invisible (para separar sin usar puntos)</div>
-                <div class="sym-row">
-                    <button class="sym-btn" onclick="copySym('ㅤ')" title="Espacio Hangul invisible">ㅤ (Espacio Hangul)</button>
-                    <button class="sym-btn" onclick="copySym(' ')" title="Espacio sin ruptura">⬜ (Espacio NBSP)</button>
-                    <button class="sym-btn" onclick="copySym('᲼')" title="Espacio invisible">᲼ (Invisible)</button>
-                    <button class="sym-btn" onclick="copySym('‎')" title="Marca izq-derecha">‎ (Marca LTR)</button>
-                </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+              <h3 className="font-bold text-green-800 mb-2 flex items-center gap-2">
+                ✅ Buenos nombres
+              </h3>
+              <ul className="text-sm space-y-1">
+                <li>✓ <strong>Cortos y memorables:</strong> <code>Notch_Jr</code></li>
+                <li>✓ <strong>Temáticos:</strong> <code>Diamond_Steve</code></li>
+                <li>✓ <strong>Creativos:</strong> <code>Pixel_Wizard</code></li>
+                <li>✓ <strong>Con guión bajo:</strong> <code>Master_Builder</code></li>
+              </ul>
             </div>
+            <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
+              <h3 className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                ❌ Evita estos
+              </h3>
+              <ul className="text-sm space-y-1">
+                <li>✗ <strong>Números aleatorios:</strong> <code>Steve12345</code></li>
+                <li>✗ <strong>Demasiado largo:</strong> <code>TheLegendaryMinecraftPlayer</code></li>
+                <li>✗ <strong>Difícil de recordar:</strong> <code>xXx_N00b_xXx</code></li>
+                <li>✗ <strong>Nombres ofensivos</strong> (serás baneado)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="bg-yellow-50 border border-yellow-300 p-6 rounded-lg">
+            <h3 className="font-bold text-gray-800 mb-3">⚠️ Importante: Cambio de nombre</h3>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-start gap-2">
+                <span className="text-[#8e44ad] font-bold">•</span>
+                <span>Puedes cambiar tu nombre de Minecraft <strong>una vez cada 30 días</strong></span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#8e44ad] font-bold">•</span>
+                <span>Tu nombre antiguo queda disponible para otros después de 37 días</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#8e44ad] font-bold">•</span>
+                <span>Verifica la disponibilidad en <strong>namemc.com</strong> antes de decidir</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#8e44ad] font-bold">•</span>
+                <span>Algunos servidores tardan en actualizar tu nuevo nombre</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-gradient-to-r from-[#8e44ad] to-[#9b59b6] text-white p-6 rounded-lg">
+            <h3 className="text-xl font-bold mb-3">🎮 Servidores populares y sus estilos</h3>
+            <div className="grid md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <h4 className="font-bold mb-2">Hypixel</h4>
+                <p className="opacity-90">Nombres competitivos y cortos. Evita caracteres especiales ya que el chat no los muestra bien.</p>
+              </div>
+              <div>
+                <h4 className="font-bold mb-2">Mineplex</h4>
+                <p className="opacity-90">Nombres amigables y casuales. La comunidad es más relajada.</p>
+              </div>
+              <div>
+                <h4 className="font-bold mb-2">2B2T</h4>
+                <p className="opacity-90">Nombres intimidantes o anónimos. Es el servidor de anarquía más antiguo.</p>
+              </div>
+              <div>
+                <h4 className="font-bold mb-2">Hermitcraft</h4>
+                <p className="opacity-90">Nombres creativos y únicos. Enfocado en construcción y comunidad.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-lg">
+            <h3 className="font-bold text-gray-800 mb-3">💡 Tips Pro de YouTubers</h3>
+            <ul className="space-y-2 text-sm">
+              <li>✓ Si haces contenido, usa el mismo nombre en YouTube/Twitch para reconocimiento</li>
+              <li>✓ Nombres cortos son más fáciles de buscar y mencionar en chat</li>
+              <li>✓ Evita números al final - parecen cuentas alternativas (alts)</li>
+              <li>✓ Considera que tu nombre aparecerá en leaderboards y rankings</li>
+              <li>✓ Los nombres con tema de Minecraft envejecen mejor que referencias temporales</li>
+            </ul>
+          </div>
         </div>
-
-        <!-- FUENTES ESPECIALES -->
-        <div class="section-title">🔡 Fuentes especiales — escribe tu nombre en cada estilo</div>
-
-        <div class="font-card">
-            <div class="font-card-head">Gótico / Fraktur</div>
-            <div class="font-card-body">
-                <span id="f-gothic">𝕳𝖔𝖑𝖆 𝕸𝖚𝖓𝖉𝖔</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-gothic').innerText)">Copiar</button>
-            </div>
-        </div>
-        <div class="font-card">
-            <div class="font-card-head">Script / Cursiva decorativa</div>
-            <div class="font-card-body">
-                <span id="f-script">𝓗𝓸𝓵𝓪 𝓜𝓾𝓷𝓭𝓸</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-script').innerText)">Copiar</button>
-            </div>
-        </div>
-        <div class="font-card">
-            <div class="font-card-head">Doble trazo (Matemático)</div>
-            <div class="font-card-body">
-                <span id="f-double">ℍ𝕠𝕝𝕒 𝕄𝕦𝕟𝕕𝕠</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-double').innerText)">Copiar</button>
-            </div>
-        </div>
-        <div class="font-card">
-            <div class="font-card-head">Sans-serif negrita</div>
-            <div class="font-card-body">
-                <span id="f-sans">𝗛𝗼𝗹𝗮 𝗠𝘂𝗻𝗱𝗼</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-sans').innerText)">Copiar</button>
-            </div>
-        </div>
-        <div class="font-card">
-            <div class="font-card-head">Cursiva italic</div>
-            <div class="font-card-body">
-                <span id="f-italic">𝘏𝘰𝘭𝘢 𝘔𝘶𝘯𝘥𝘰</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-italic').innerText)">Copiar</button>
-            </div>
-        </div>
-        <div class="font-card">
-            <div class="font-card-head">Superíndice pequeño</div>
-            <div class="font-card-body">
-                <span id="f-super">ᴴᵒˡᵃ ᴹᵘⁿᵈᵒ</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-super').innerText)">Copiar</button>
-            </div>
-        </div>
-        <div class="font-card">
-            <div class="font-card-head">Monoespaciado</div>
-            <div class="font-card-body">
-                <span id="f-mono">𝙷𝚘𝚕𝚊 𝙼𝚞𝚗𝚍𝚘</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-mono').innerText)">Copiar</button>
-            </div>
-        </div>
-        <div class="font-card">
-            <div class="font-card-head">Cherokee / Letras raras</div>
-            <div class="font-card-body">
-                <span id="f-chero">ᎻᎧᏞᎪ ᎷᏬᏁᎴᎧ</span>
-                <button class="copy-btn" onclick="copy(document.getElementById('f-chero').innerText)">Copiar</button>
-            </div>
-        </div>
-
-        <!-- SEO FOOTER -->
-        <div class="seo-footer">
-            <h3>¿Cómo elegir un nombre realmente "insano"?</h3>
-            <p>Para destacar en juegos como Free Fire, PUBG o Minecraft, un nombre simple no es suficiente. Los mejores jugadores usan <b>NickFFinsanos</b> para mezclar fuentes matemáticas, letras especiales Unicode y símbolos de poder.</p>
-
-            <h4>🔑 Los 3 principios del nick perfecto</h4>
-            <p><b>1. Simetría:</b> Los apodos más votados suelen tener símbolos idénticos a cada lado, como <code>꧁༺ NICK ༻꧂</code>. La simetría transmite equilibrio y profesionalismo visual.<br>
-            <b>2. Espacio Invisible (ㅤ):</b> Es el carácter más buscado para separar palabras sin usar puntos ni guiones. Hace que el nick se vea limpio y moderno.<br>
-            <b>3. Legibilidad:</b> No uses más de 3–4 símbolos decorativos. El nombre principal debe ser reconocible para que tus aliados te encuentren rápido en el lobby.</p>
-
-            <h4>🎮 ¿Qué símbolos funcionan en cada juego?</h4>
-            <p><b>Free Fire:</b> Admite la mayoría de caracteres Unicode. Los favoritos son <code>꧁꧂ ༒ ☬ ♛ ✞</code> para crear marcos épicos.<br>
-            <b>PUBG / COD:</b> Soporte parcial. Funcionan bien los caracteres de bloque, flechas y fuentes matemáticas como <code>𝓓𝓪𝓻𝓴</code> o <code>𝕾𝖆𝖓𝖌𝖗𝖊</code>.<br>
-            <b>Minecraft:</b> Solo acepta caracteres básicos en el nombre de Mojang, pero en servidores con apodos (/nick) se puede usar Unicode extendido.</p>
-
-            <h4>📋 Cómo copiar y pegar el apodo</h4>
-            <p>1. Haz clic sobre cualquier nick de las tendencias o en los botones de símbolos — se copiará automáticamente al portapapeles.<br>
-            2. Entra a la configuración de tu juego → perfil → nombre de usuario.<br>
-            3. Pega el nick con <b>Ctrl+V</b> (PC) o mantén pulsado el campo de texto (móvil) y selecciona Pegar.<br>
-            4. ¡Listo! Tu nombre aparecerá con todos los símbolos tal cual.</p>
-        </div>
-
-    </main>
-
-    <div id="toast">✔️ Copiado al portapapeles</div>
-
-    <script>
-        // ——— Copiar texto ———
-        function copy(text) {
-            navigator.clipboard.writeText(text);
-            showToast('✔️ Copiado: ' + text.slice(0, 20));
-        }
-        function copySym(sym) {
-            navigator.clipboard.writeText(sym);
-            showToast('✔️ Símbolo copiado: ' + sym);
-        }
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.style.display = 'block';
-            setTimeout(() => t.style.display = 'none', 1600);
-        }
-
-        // ——— Poner en input ———
-        function setInput(val) {
-            document.getElementById('mainIn').value = val;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        // ——— Tablas de conversión ———
-        const gothic = {a:'𝖆',b:'𝖇',c:'𝖈',d:'𝖉',e:'𝖊',f:'𝖋',g:'𝖌',h:'𝖍',i:'𝖎',j:'𝖏',k:'𝖐',l:'𝖑',m:'𝖒',n:'𝖓',o:'𝖔',p:'𝖕',q:'𝖖',r:'𝖗',s:'𝖘',t:'𝖙',u:'𝖚',v:'𝖛',w:'𝖜',x:'𝖝',y:'𝖞',z:'𝖟',A:'𝕬',B:'𝕭',C:'𝕮',D:'𝕯',E:'𝕰',F:'𝕱',G:'𝕲',H:'𝕳',I:'𝕴',J:'𝕵',K:'𝕶',L:'𝕷',M:'𝕸',N:'𝕹',O:'𝕺',P:'𝕻',Q:'𝕼',R:'𝕽',S:'𝕾',T:'𝕿',U:'𝖀',V:'𝖁',W:'𝖂',X:'𝖃',Y:'𝖄',Z:'𝖅'};
-        const script = {a:'𝓪',b:'𝓫',c:'𝓬',d:'𝓭',e:'𝓮',f:'𝓯',g:'𝓰',h:'𝓱',i:'𝓲',j:'𝓳',k:'𝓴',l:'𝓵',m:'𝓶',n:'𝓷',o:'𝓸',p:'𝓹',q:'𝓺',r:'𝓻',s:'𝓼',t:'𝓽',u:'𝓾',v:'𝓿',w:'𝔀',x:'𝔁',y:'𝔂',z:'𝔃',A:'𝓐',B:'𝓑',C:'𝓒',D:'𝓓',E:'𝓔',F:'𝓕',G:'𝓖',H:'𝓗',I:'𝓘',J:'𝓙',K:'𝓚',L:'𝓛',M:'𝓜',N:'𝓝',O:'𝓞',P:'𝓟',Q:'𝓠',R:'𝓡',S:'𝓢',T:'𝓣',U:'𝓤',V:'𝓥',W:'𝓦',X:'𝓧',Y:'𝓨',Z:'𝓩'};
-
-        function toFont(str, map) {
-            return str.split('').map(c => map[c] || c).join('');
-        }
-
-        const nicksTemplate = [
-            n => `꧁༺ ${n} ༻꧂`,
-            n => `☆彡 ${n} 彡☆`,
-            n => `꧁✞ ${n} ✞꧂`,
-            n => `༄ ${n} 彡`,
-            n => `꧁༒☬ ${n} ☬༒꧂`,
-            n => `★ ${n} ★`,
-            n => `『 ${n} 』`,
-            n => `⌈ ${n} ⌋`,
-            n => `✦ ${n} ✦`,
-            n => `♛ ${n} ♛`,
-            n => `꧁⚔️ ${n} ⚔️꧂`,
-            n => `【 ${n} 】`,
-            n => `《 ${n} 》`,
-            n => `꧁💀 ${n} 💀꧂`,
-            n => `▸ ${n} ◂`,
-            n => `◆ ${toFont(n, gothic)} ◆`,
-            n => `✿ ${toFont(n, script)} ✿`,
-            n => `🔥 ${n} 🔥`,
-            n => `💠 ${n} 💠`,
-            n => `👑 ${toFont(n, gothic)} 👑`,
-        ];
-
-        // ——— Generar variaciones ———
-        function generar() {
-            const val = document.getElementById('mainIn').value.trim();
-            if (!val) return alert('Escribe un nombre primero.');
-            const box = document.getElementById('results-box');
-            const inner = document.getElementById('results-inner');
-            inner.innerHTML = '';
-            nicksTemplate.forEach(tpl => {
-                const nick = tpl(val);
-                const a = document.createElement('a');
-                a.href = '#';
-                a.textContent = nick;
-                a.onclick = (e) => { e.preventDefault(); copy(nick); };
-                inner.appendChild(a);
-            });
-            box.style.display = 'block';
-            box.scrollIntoView({behavior:'smooth'});
-        }
-
-        // ——— Nick aleatorio ———
-        const names = ['Shadow','Dark','Pro','King','Queen','Ninja','Demon','Angel','Fire','Storm','Wolf','Dragon','Ghost','Viper','Blaze','Nova','Reaper','Titan','Phantom','Frost'];
-        function nickAleatorio() {
-            const name = names[Math.floor(Math.random()*names.length)];
-            const tpl = nicksTemplate[Math.floor(Math.random()*nicksTemplate.length)];
-            const nick = tpl(name);
-            copy(nick);
-            showToast('🎲 Nick aleatorio: ' + nick.slice(0,25));
-        }
-
-        // ——— Enter en el input ———
-        document.getElementById('mainIn').addEventListener('keydown', e => { if(e.key === 'Enter') generar(); });
-    </script>
-</body>
-</html>
+      </div>
+    </div>
+  );
+}
